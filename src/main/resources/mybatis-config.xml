@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  
+	  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+	  "http://mybatis.org/dtd/mybatis-3-config.dtd">  
+
+<!--MyBatis 的全局配置文件，如果没有全局性配置的需要，没有这个文件也是可以的。
+	那么spring-mybatis.xml中 去掉  <property name="configLocation" value="classpath:mybatis-config.xml" />  即可
+-->     
+<configuration>  
+	<!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径  -->  
+	<typeAliases>    
+		<!--<typeAlias type="com.summit.common.userManager.entity.User" alias="User"/>-->  
+		<package name="com.summit.common"/>
+	</typeAliases>     
+	<!-- 	  <mappers>  
+			<mapper resource="com/huawei/mapping/PersonMapper.xml" />  
+		</mappers>-->  
+</configuration> 
