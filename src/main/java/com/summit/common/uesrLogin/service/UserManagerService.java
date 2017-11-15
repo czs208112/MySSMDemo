@@ -7,21 +7,23 @@ import org.springframework.stereotype.Service;
 
 import com.summit.common.uesrLogin.dao.IUserManagerMapper;
 import com.summit.common.uesrLogin.model.User;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserManagerService {
 
-////	@Autowired
-////	public IUserManagerMapper userManagerMapper;
-//
-//	public List<User> getUserList(){
-//		return userManagerMapper.getUserList();
-//	}
-//
-//	public void findByUsername(String name) {
-//
-//		userManagerMapper.findByUsername(name);
-//
-//	}
-//
+	@Autowired
+	public IUserManagerMapper userManagerMapper;
+
+	public List<User> getUserList(){
+		return userManagerMapper.getUserList();
+	}
+
+	@Transactional
+	public void findByUsername(String name) {
+
+		userManagerMapper.findByUsername(name);
+
+	}
+
 }

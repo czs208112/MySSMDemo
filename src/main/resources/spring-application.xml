@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context.xsd
-	http://www.springframework.org/schema/aop
-	http://www.springframework.org/schema/aop/spring-aop.xsd
-	http://www.springframework.org/schema/tx 
-	http://www.springframework.org/schema/tx/spring-tx.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- 加载properties文件,数据库配置放在spring-mybatis.xml
     <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
@@ -68,25 +59,25 @@
     </bean>
 
     <!--全局异常处理-->
-    <bean id="exceptionSolver" class="com.summit.base.CommonExceptionResolver"></bean>
+    <bean id="exceptionSolver" class="com.summit.base.CommonExceptionResolver"/>
 
     <bean name="d2,d3" id="d1" class="com.summit.common.injectDemo.model.Dog">
-        <property name="name" value="哈士奇小哈"></property>
+        <property name="name" value="哈士奇小哈"/>
     </bean>
     <bean name="ssss" id="d4" class="com.summit.common.injectDemo.model.Dog">
-        <property name="name" value="哈士奇小哈哈"></property>
+        <property name="name" value="哈士奇小哈哈"/>
     </bean>
     <bean id="d5" name="db" class="com.summit.common.injectDemo.model.Dog">
-        <property name="name" value="哈士奇小哈哈哈"></property>
+        <property name="name" value="哈士奇小哈哈哈"/>
     </bean>
     <bean class="com.summit.common.injectDemo.model.Cat">
-        <property name="name" value="小喵"></property>
+        <property name="name" value="小喵"/>
     </bean>
     <bean class="com.summit.common.injectDemo.model.Cat">
-        <property name="name" value="小喵喵"></property>
+        <property name="name" value="小喵喵"/>
     </bean>
 
     <bean class="com.summit.common.injectDemo.controller.DemoInject">
-        <property name="name" value="张三"></property>
+        <property name="name" value="张三"/>
     </bean>
 </beans>

@@ -46,7 +46,7 @@ public class Login {
             subject.login(token);
         } catch (UnknownAccountException e1) {
             e1.printStackTrace();
-            return "redirect:/pages/common/error.jsp";
+            return "redirect:/pages/common/error.jsp";//重定向到错误页
         } catch (AuthenticationException e2) {
             e2.printStackTrace();
             return "common/error";
@@ -54,18 +54,11 @@ public class Login {
             e3.printStackTrace();
             return "common/error";
         }
-
-        System.out.println(name);
-        //   return "redirect:/jsp/index.jsp";
-//        return "redirect:/jsp/error.jsp";// 重定向到首页
         return "common/success";
     }
 
     @RequestMapping("demo")
     public String abcd(HttpServletRequest request) {
-
         return "redirect:/html/index.html";
     }
-
-
 }

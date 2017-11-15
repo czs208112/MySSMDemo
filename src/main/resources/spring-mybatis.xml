@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context.xsd
-	http://www.springframework.org/schema/aop
-	http://www.springframework.org/schema/aop/spring-aop.xsd
-	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx
 	http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<!-- 引入配置文件 -->  
@@ -53,18 +49,18 @@
 		<!--MyBatis全局配置文件,我在mybatis-config.xml暂时只配置了扫描类别名，与下秒配置typeAliasesPackage效果是一样的。-->
 		<!--<property name="configLocation" value="classpath:mybatis-config.xml" /> -->
 		
-		<!--自动扫描指定路径下的类并建立别名-->
+		<!--自动扫描指定路径下的实体类并建立别名-->
 		<property name="typeAliasesPackage" value="com.summit.common" />
 		
 		<!-- 自动扫描mapping.xml文件 -->  
-		<property name="mapperLocations" value="classpath:com/summit/*.xml"></property>  
+		<property name="mapperLocations" value="classpath:com/summit/*.xml"/>
 		
 	</bean>  
   
-	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->  
+	<!-- DAO接口所在包名，Spring会自动查找其下的DAO接口类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
 		<property name="basePackage" value="com.summit.common" />
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>  
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 	</bean>  
   
 	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->  
