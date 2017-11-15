@@ -38,14 +38,14 @@
         <property name="unauthorizedUrl" value="/pages/common/error.jsp"/>
         <property name="filterChainDefinitions">
             <value>
-                /html/** = anon
-                /aaa/**= anon
-                /static/** = anon
                 /pages/common/login.jsp = anon
-                /pages/common/index.jsp= authc
-                /pages/**= anon
-                /**/*.do=anon
-                /**= authc
+                /pages/common/index.jsp = authc
+                /pages/** = anon
+                /**/*.do = anon
+                /**/*.jsp = anon
+                /**/*.css = anon
+                /**/*.js = anon
+                /** = authc
             </value>
         </property>
     </bean>
