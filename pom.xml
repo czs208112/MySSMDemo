@@ -191,6 +191,48 @@
         </dependency>
 
     </dependencies>
+
+    <!-- 配置私服地址 -->
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <url>http://localhost:8081/nexus/content/groups/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus</id>
+            <url>http://localhost:8081/nexus/content/groups/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <!--这里的id与setting.xml中配置的id要一致-->
+            <id>nexus-releases</id>
+            <name>my-releases</name>
+            <url>http://localhost:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <!--snapshots库-->
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>my-snapshots</name>
+            <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <build>
         <finalName>MySSMDemo</finalName>
         <plugins>
