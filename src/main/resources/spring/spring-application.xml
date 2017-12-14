@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
     <!-- 加载properties文件,数据库配置放在spring-mybatis.xml
     <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
@@ -12,7 +13,6 @@
             </list>
         </property>
     </bean> -->
-
 
     <!-- 項目自定义的Realm -->
     <bean id="shiroRealm" class="com.summit.framework.shiro.MyShiroRealm">
@@ -42,6 +42,7 @@
                 /pages/common/index.jsp = authc
                 /pages/** = anon
                 /**/*.do = anon
+                /springws/** = anon
                 /**/*.jsp = anon
                 /**/*.css = anon
                 /**/*.js = anon
@@ -80,4 +81,22 @@
     <bean class="com.summit.common.injectDemo.controller.DemoInject">
         <property name="name" value="张三"/>
     </bean>
+
+    <!--&lt;!&ndash;原生websocket实现&ndash;&gt;-->
+    <!--<websocket:handlers>-->
+    <!--<websocket:mapping path="/MySSMDemo/ws" handler="demoWSHandler"/>-->
+    <!--<websocket:handshake-interceptors>-->
+    <!--<bean class="HandshakeInterceptor"/>-->
+    <!--</websocket:handshake-interceptors>-->
+    <!--</websocket:handlers>-->
+    <!--&lt;!&ndash;&lt;!&ndash;sockjs实现websocket&ndash;&gt;-->
+    <!--<websocket:handlers>-->
+    <!--<websocket:mapping path="/springws/websocket" handler="demoWSHandler"/>-->
+    <!--<websocket:handshake-interceptors>-->
+    <!--<bean class="com.ld.net.spider.demo.ws.HandshakeInterceptor"/>-->
+    <!--</websocket:handshake-interceptors>-->
+    <!--<websocket:sockjs/>-->
+    <!--</websocket:handlers>&ndash;&gt;-->
+    <!--<bean id="demoWSHandler" class="DemoWSHandler"/>-->
+
 </beans>

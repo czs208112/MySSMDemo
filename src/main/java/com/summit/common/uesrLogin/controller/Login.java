@@ -46,7 +46,9 @@ public class Login {
             subject.login(token);
         } catch (UnknownAccountException e1) {
             e1.printStackTrace();
-            return "redirect:/pages/common/error.jsp";//重定向到错误页
+//            return "redirect:/pages/common/error.jsp";//重定向到错误页
+//            return "/common/wsdemo";
+            return "/common/sockjsdemo";
         } catch (AuthenticationException e2) {
             e2.printStackTrace();
             return "common/error";
