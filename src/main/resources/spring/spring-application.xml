@@ -42,7 +42,7 @@
                 /pages/common/index.jsp = authc
                 /pages/** = anon
                 /**/*.do = anon
-                /springws/** = anon
+                /sockjs/** = anon
                 /**/*.jsp = anon
                 /**/*.css = anon
                 /**/*.js = anon
@@ -82,21 +82,22 @@
         <property name="name" value="张三"/>
     </bean>
 
-    <!--&lt;!&ndash;原生websocket实现&ndash;&gt;-->
-    <!--<websocket:handlers>-->
-    <!--<websocket:mapping path="/MySSMDemo/ws" handler="demoWSHandler"/>-->
-    <!--<websocket:handshake-interceptors>-->
-    <!--<bean class="HandshakeInterceptor"/>-->
-    <!--</websocket:handshake-interceptors>-->
-    <!--</websocket:handlers>-->
-    <!--&lt;!&ndash;&lt;!&ndash;sockjs实现websocket&ndash;&gt;-->
-    <!--<websocket:handlers>-->
-    <!--<websocket:mapping path="/springws/websocket" handler="demoWSHandler"/>-->
-    <!--<websocket:handshake-interceptors>-->
-    <!--<bean class="com.ld.net.spider.demo.ws.HandshakeInterceptor"/>-->
-    <!--</websocket:handshake-interceptors>-->
-    <!--<websocket:sockjs/>-->
-    <!--</websocket:handlers>&ndash;&gt;-->
-    <!--<bean id="demoWSHandler" class="DemoWSHandler"/>-->
+    <!--&lt;!&ndash;原生websocket实现&ndash;&gt;
+    <websocket:handlers>
+        <websocket:mapping path="/ws.do" handler="demoWSHandler"/>
+        <websocket:handshake-interceptors>
+            <bean class="com.summit.common.websocket.HandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+    </websocket:handlers>-->
+
+    <!--sockjs实现websocket-->
+    <websocket:handlers>
+        <websocket:mapping path="/ws.do" handler="demoWSHandler"/>
+        <websocket:handshake-interceptors>
+            <bean class="com.summit.common.websocket.HandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+        <websocket:sockjs/>
+    </websocket:handlers>
+    <bean id="demoWSHandler" class="com.summit.common.websocket.DemoWSHandler"/>
 
 </beans>

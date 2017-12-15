@@ -18,7 +18,7 @@
             output = document.getElementById("output");
         }
         function send_echo() {
-            echo_websocket = new SockJS("http://localhost:8080/springws/ws.do") ;   //初始化 websocket
+            echo_websocket = new SockJS("http://localhost:8080/sockjs/ws.do") ;   //初始化 websocket
 
             echo_websocket.onopen = function () {
                 console.log('Info: connection opened.');
