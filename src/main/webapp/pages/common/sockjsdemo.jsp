@@ -21,6 +21,7 @@
             echo_websocket = new SockJS("http://localhost:8080/sockjs/ws.do") ;   //初始化 websocket
 
             echo_websocket.onopen = function () {
+                doSend(textID.value);
                 console.log('Info: connection opened.');
             };
 
@@ -34,7 +35,7 @@
                 console.log(event);
             };
 
-            echo_websocket.send("abcabc");
+
         }
 
         function doSend(message) {
