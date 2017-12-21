@@ -1,5 +1,6 @@
 package com.summit.framework.shiro;
 
+import com.summit.common.injectDemo.controller.DemoInject;
 import com.summit.common.uesrLogin.model.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -15,12 +16,16 @@ public class MyShiroRealm extends AuthorizingRealm {
 	@Autowired
 	IUserManagerMapper userDao;
 
+	@Autowired
+	private DemoInject demoInject;
+
 	/**
 	 * 授权
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principal) {
+
 //		String username = (String) principal.getPrimaryPrincipal();
 
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
@@ -40,6 +45,10 @@ public class MyShiroRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
+
+		String cache = demoInject.getCache("asdfasdfas");
+		System.out.printf(cache+"*******************************************");
+
 		// UsernamePasswordToken login_token = (UsernamePasswordToken) token;
 		//
 		// //校验码判断逻辑
