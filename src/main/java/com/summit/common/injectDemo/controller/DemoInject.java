@@ -3,7 +3,6 @@ package com.summit.common.injectDemo.controller;
 import com.summit.common.injectDemo.model.Cat;
 import com.summit.common.injectDemo.model.Dog;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 
 import javax.annotation.Resource;
 
@@ -27,12 +26,6 @@ public class DemoInject {
 
     public String getName() {
         return name;
-    }
-
-    @Cacheable(value = {"cacheTest"}, key = "#name")
-    public String getCache(String name) {
-        System.out.printf("############" + name);
-        return name+System.currentTimeMillis();
     }
 
     public void setName(String name) {
