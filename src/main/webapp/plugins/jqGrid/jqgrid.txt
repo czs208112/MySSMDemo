@@ -86,3 +86,22 @@ $("#table_list").jqGrid("setGridParam", { search : true }).trigger("reloadGrid",
 jQuery("#table_list2").jqGrid('delRowData',ids[0]);
 //添加行
 jQuery("#table_list2").jqGrid('addRowData',selNode.id, selNode.nodeData);
+
+//二级表头合并
+$("#table_list").setGroupHeaders({
+    useColSpanStyle: true,    //表头是否合并行
+    groupHeaders:[
+        {startColumnName: 'ColumnName1', numberOfColumns: 1, titleText: '二级表头1 '},
+        {startColumnName: 'ColumnName2', numberOfColumns: 1, titleText: '二级表头2'},
+        {startColumnName: 'ColumnName3', numberOfColumns: 1, titleText: '二级表头3'},
+        {startColumnName: 'ColumnName4', numberOfColumns: 2, titleText: '二级表头4'}
+    ]
+});
+//多级表头合并
+jQuery("#table_list").jqGrid("setComplexGroupHeaders",{
+    complexGroupHeaders:[
+        {startColumnName: 'ColumnName5', numberOfColumns: 21, titleText: ' 三级表头1'},
+        {startColumnName: 'ColumnName6', numberOfColumns: 5, titleText: '三级表头2'},
+        {startColumnName: 'ColumnName7', numberOfColumns: 11, titleText: ' '},//不设值需要给个空字符串
+    ]
+});

@@ -161,5 +161,23 @@ $(function () {
         }
     });
 
+    var allData = $("#table_list").jqGrid("getRowData");
+    $.each(allData, function (i, n) {
+        // alert(JSON.stringify(n))
 
+    })
+
+    $("#table_list").jqGrid("setGroupHeaders", {
+        useColSpanStyle: true,
+        groupHeaders: [
+            {startColumnName: 'A', numberOfColumns: 3, titleText: '二级表头1'},
+            {startColumnName: 'D', numberOfColumns: 2, titleText: '二级表头2'}
+        ]
+    });
+
+    jQuery("#table_list").jqGrid("setComplexGroupHeaders", {
+        complexGroupHeaders: [
+            {startColumnName: 'A', numberOfColumns: 7, titleText: '基本信息A'}
+        ]
+    });
 })

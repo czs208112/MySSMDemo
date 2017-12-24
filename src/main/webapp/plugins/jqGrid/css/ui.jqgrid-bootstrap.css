@@ -63,10 +63,10 @@
 }
 .ui-jqgrid .ui-jqgrid-htable thead th {
 	overflow : hidden; 
-	border-bottom : none;
 	padding-right: 2px;
 	text-align: center;
-	background-color: #e5e5e5;
+	background-color: #eeeeee;
+	vertical-align: middle;
 }
 .ui-jqgrid .ui-jqgrid-htable thead th div {
 	overflow: hidden; 
