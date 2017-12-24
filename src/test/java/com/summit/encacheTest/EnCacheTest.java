@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring/spring-application.xml","classpath:spring/spring-mvc.xml","classpath:spring/spring-mybatis.xml" })
+@ContextConfiguration(locations = {"classpath:spring/spring-application.xml", "classpath:spring/spring-mvc.xml", "classpath:spring/spring-mybatis.xml"})
 @Transactional
 public class EnCacheTest {
     @Autowired
@@ -24,6 +24,5 @@ public class EnCacheTest {
             System.out.println(name);
             Thread.sleep(2000);
         }
-
     }
 }

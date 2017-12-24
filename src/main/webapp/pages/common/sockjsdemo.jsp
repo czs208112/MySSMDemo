@@ -11,7 +11,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Web Socket JavaScript Echo Client</title>
-    <script src="${pageContext.request.contextPath}/js/sockjs.min.js"></script>
+    <script src="${pageContext.request.contextPath}/plugins/sockjs.min.js"></script>
     <script language="javascript" type="text/javascript">
         var echo_websocket;
         function init() {

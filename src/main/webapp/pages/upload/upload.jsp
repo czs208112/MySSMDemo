@@ -15,9 +15,9 @@
           content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap-theme.css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/plugins/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/plugins/bootstrap/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/customer/css/style.css"/>
 
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/plugins/jQuery-File-Upload/css/jquery.fileupload.css">
@@ -48,13 +48,12 @@
         </div>
     </div>
 
-
 </div>
 
 </body>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/plugins/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/plugins/bootstrap/js/bootstrap.js"></script>
 <%--jQuery-File-Upload--%>
 <script src="${pageContext.request.contextPath}/plugins/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>

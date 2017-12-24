@@ -9,7 +9,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
     <!--<mvc:annotation-driven/>相当于注册了DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter两个bean,没有<mvc:annotation-driven/>,则无法通过注解解析请求-->
-    <!-- springmvc乱码解决 -->
+    <!-- springmvc乱码解决及日期字段格式化-->
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
@@ -26,6 +26,16 @@
                         <value>application/json; charset=UTF-8</value>
                         <value>application/x-www-form-urlencoded; charset=UTF-8</value>
                     </list>
+                </property>
+
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+                            </bean>
+                        </property>
+                    </bean>
                 </property>
             </bean>
         </mvc:message-converters>

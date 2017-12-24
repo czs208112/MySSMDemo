@@ -18,7 +18,7 @@
                                                                         value="Submit">
 </form>
 
-<%--<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/plugins/jquery-1.11.3.min.js"></script>--%>
 <%--<script type="text/javascript">--%>
     <%--$().ready(function () {--%>
         <%--$.ajax({--%>
