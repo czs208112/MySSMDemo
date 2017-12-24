@@ -1,0 +1,88 @@
+/* 设置grid默认UI*/
+$.jgrid.defaults.styleUI = 'Bootstrap';
+$('#table_list').jqGrid({
+	url : getRootPath() + '/waterperoid/list.do',
+	datatype : 'json',
+	mtype : 'POST', /* 此次注意用POST方法,GET可能会导致中文参数乱码*/
+	height : 345,
+	caption : "已分配列表",//表格名称
+	postData: GetData('qurForm'),//此数组内容直接赋值到url上，参数类型：{name1:value1…}
+	autowidth : true,
+	sortname : 'DRP',//初始化的时候排序的字段
+    sortorder : "desc",//排序方式,可选desc,asc
+	//multiselect : true, //定义是否可以多选
+	shrinkToFit : true, //此属性用来说明当初始化列宽度时候的计算类型，如果为ture，则按比例初始化列宽度。如果为false，则列宽度使用colModel指定的宽度
+	scrollOffset : 0, //设置垂直滚动条宽度  默认18
+	rowNum : 15, /* 默认每页的记录数*/
+	rowList : [ 15, 30, 45 ], //一个下拉选择框，用来改变显示记录数，当选择时会覆盖rowNum参数传递到后台
+	colNames : [ '编号', '测站编码', '测站类型', '测站名称', '累计雨量',  '站点类型'],
+	cellEdit : true,//启用或者禁用单元格编辑功能
+	cellsubmit : 'clientArray',//定义了单元格内容保存位置
+	colModel : [
+		{
+			name : 'STNM',
+			index : 'STNM',
+			width : 90,
+			editable : false,//单元格是否可编辑
+			//编辑的规则{name:’age’,index:’age’, width:90,editable:true,editrules: {edithidden:true,required:true,number:true,minValue:10,maxValue:100}},
+			//设定 年龄的最大值为100，最小值为10，而且为数字类型，并且为必输字段。
+			editrules : ,
+			edittype : '',//可以编辑的类型。可选值：text, textarea, select, checkbox, password, button, image and file.
+			key : true,//当从服务器端返回的数据中没有id时，将此作为唯一rowid使用只有一个列可以做这项设置。如果设置多于一个，那么只选取第一个，其他被忽略
+			align : 'left',
+			formatter : function(cellvalue, options, rowObject){
+				return '<a href="javascript:void(0);" onclick="stationDetail(\''+rowObject.CODE+'\',\''+rowObject.STNM+'\',\''+rowObject.STTP+'\')">'+cellvalue+'</a>';
+			}
+		}
+	],
+	pager : '#pager_list', /* 分页渲染对象*/
+	viewrecords : true,
+	jsonReader : { //描述json 数据格式的数组
+		root : "data.result", //记录列表
+		page : "data.curPage", //当前页码
+		total : "data.totalPage", //总页数
+		records : "data.total", //总记录数
+		repeatitems : false,
+		id : 'STNM'
+	}
+});
+$("#table_list").setGridHeight(top.document.body.scrollHeight-285);
+$(window).resize(function() {
+   $("#table_list").setGridHeight(top.document.body.scrollHeight-285);
+});
+
+formatter : function(cellvalue, options, rowObject) {
+	if (cellvalue == '0') {
+		return '<font color="red">不可用</font>';
+	} else if (cellvalue == '1') {
+		return '可用';
+	}
+}
+
+//jqgrid加载本地数据
+$("#futureRainWin_tabList").jqGrid("setGridParam", {
+	data : futureRainData,
+	datatype : "local"
+}).trigger("reloadGrid", [ {
+	page : 1
+} ]);
+
+//获取表格中的所有数据
+var rowData = $("#futureRainWin_tabList").jqGrid("getRowData");
+//获取选中行id
+var rowid = $("#jqgrid").jqGrid('getGridParam','selrow');//单选
+var selectedIds  = $("#stationList").jqGrid("getGridParam","selarrrow");//多选
+//获取选中行数据
+var rowData = $("#jqgrid").jqGrid('getRowData',rowId);
+//重置选中行：
+$("#jqgrid").resetSelection();
+//清除：
+$("#jqgrid").clearGridData(); 
+//搜索
+var postData = $("#table_list").jqGrid("getGridParam", "postData");
+$.extend(postData, GetData('qurForm'));
+$("#table_list").jqGrid("setGridParam", { search : true }).trigger("reloadGrid", [ { page : 1 } ]);
+//删除行
+jQuery("#table_list2").jqGrid('delRowData',ids[0]);
+//添加行
+jQuery("#table_list2").jqGrid('addRowData',selNode.id, selNode.nodeData);
