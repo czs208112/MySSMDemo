@@ -32,7 +32,7 @@ $(function () {
         data: mydata,
         datatype: "local",
         mtype: 'POST', /* 此次注意用POST方法,GET可能会导致中文参数乱码*/
-        multiselect: false, //定义是否可以多选
+        multiselect: true, //定义是否可以多选
         height: 500,
         autowidth: true,
         shrinkToFit: false, //此属性用来说明当初始化列宽度时候的计算类型，如果为ture，则按比例初始化列宽度。如果为false，则列宽度使用colModel指定的宽度
@@ -43,7 +43,7 @@ $(function () {
         colModel: [{
             name: 'XZQH',
             sortable: false,
-            align: 'left',
+            align: 'right',
             width: 100,
             fixed: true,
             key: true,
