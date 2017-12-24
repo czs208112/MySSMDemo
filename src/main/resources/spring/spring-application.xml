@@ -41,12 +41,13 @@
             <value>
                 /pages/common/login.jsp = anon
                 /pages/common/index.jsp = authc
-                /pages/** = anon
-                /**/*.do = anon
-                /sockjs/** = anon
                 /**/*.jsp = anon
                 /**/*.css = anon
                 /**/*.js = anon
+                /**/*.do = anon
+                /pages/** = anon
+                /plugins/** = anon
+                /sockjs/** = anon
                 /** = authc
             </value>
         </property>
@@ -92,14 +93,14 @@
     </websocket:handlers>-->
 
     <!--sockjs实现websocket-->
-    <websocket:handlers>
+  <!--  <websocket:handlers>
         <websocket:mapping path="/ws.do" handler="demoWSHandler"/>
         <websocket:handshake-interceptors>
             <bean class="com.summit.common.websocket.HandshakeInterceptor"/>
         </websocket:handshake-interceptors>
         <websocket:sockjs/>
     </websocket:handlers>
-    <bean id="demoWSHandler" class="com.summit.common.websocket.DemoWSHandler"/>
+    <bean id="demoWSHandler" class="com.summit.common.websocket.DemoWSHandler"/>-->
 
     <!--encache相关配置start-->
     <cache:annotation-driven cache-manager="cacheManager"/>

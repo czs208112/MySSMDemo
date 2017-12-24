@@ -30,7 +30,7 @@ if(!$.jgrid.hasOwnProperty("regional")) {
 }
 $.jgrid.regional["cn"] = {
     defaults : {
-        recordtext: "第{0}到第{1}条\u3000共 {2} 条", // 共字前是全角空格
+        recordtext: "[ {0} - {1} ]\u3000共 {2} 条", // 共字前是全角空格
         emptyrecords: "没有记录！",
         loadtext: "读取中...",
 	savetext: "保存中...",
