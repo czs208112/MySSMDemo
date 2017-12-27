@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Web Socket JavaScript Echo Client</title>
+    <title>WebSocket 原生api测试</title>
     <script language="javascript" type="text/javascript">
         var echo_websocket;
 
