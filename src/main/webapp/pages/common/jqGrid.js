@@ -5,7 +5,7 @@ $(function () {
         {
             XZQH: "焉耆",
             A: "监测站1",
-            B: "500621",
+            B: "500621asdf",
             C: "2017-10-12 08:05:32",
             D: 21,
             E: 75,
@@ -37,6 +37,7 @@ $(function () {
         autowidth: true,
         shrinkToFit: false, //此属性用来说明当初始化列宽度时候的计算类型，如果为ture，则按比例初始化列宽度。如果为false，则列宽度使用colModel指定的宽度
         scrollOffset: 5, //设置垂直滚动条宽度  默认18
+        rownumbers: true, // show row numbers
         rowNum: 15, /* 默认每页的记录数*/
         rowList: [15, 30, 45], //一个下拉选择框，用来改变显示记录数，当选择时会覆盖rowNum参数传递到后台
         colNames: ['行政区划', '站名', '站码', '上报时间', '大气温度(℃)', '湿度(%)', '气压(bar)', '风向', '风速(m/s)', '降雨量(mm/5min)', '光辐射(W/㎡)', '行政区划', '站名', '站码', '上报时间', '大气温度(℃)', '湿度(%)',],
@@ -51,17 +52,20 @@ $(function () {
             {
                 name: 'A',
                 sortable: false,
-                align: 'left',
+                align: 'right',
                 width: 100,
                 fixed: true,
                 key: true,
+                formatter: function (cellvalue) {
+                    return '<input type="checkbox" /> adsfalsdfj;'
+                }
             },
             {
                 name: 'B',
                 sortable: false,
                 width: 100,
                 fixed: true,
-                align: 'right'
+                align: 'left'
             },
             {
                 name: 'C',
@@ -74,19 +78,19 @@ $(function () {
                 name: 'D',
                 sortable: false,
                 width: 100,
-                align: 'center'
+                align: 'right'
             },
             {
                 name: 'E',
                 sortable: false,
                 width: 100,
-                align: 'center'
+                align: 'right'
             },
             {
                 name: 'F',
                 sortable: false,
                 width: 100,
-                align: 'center'
+                align: 'right'
             },
             {
                 name: 'G',
@@ -151,6 +155,8 @@ $(function () {
         ],
         pager: '#pager_list', /* 分页渲染对象*/
         viewrecords: true,
+        // footerrow: true,
+        // userDataOnFooter: true,
         jsonReader: { //描述json 数据格式的数组
             root: "content", //记录列表
             page: "page", //当前页码
@@ -167,17 +173,17 @@ $(function () {
 
     })
 
-    $("#table_list").jqGrid("setGroupHeaders", {
-        useColSpanStyle: true,
-        groupHeaders: [
-            {startColumnName: 'A', numberOfColumns: 3, titleText: '二级表头1'},
-            {startColumnName: 'D', numberOfColumns: 2, titleText: '二级表头2'}
-        ]
-    });
-
-    jQuery("#table_list").jqGrid("setComplexGroupHeaders", {
-        complexGroupHeaders: [
-            {startColumnName: 'A', numberOfColumns: 7, titleText: '基本信息A'}
-        ]
-    });
+    // $("#table_list").jqGrid("setGroupHeaders", {
+    //     useColSpanStyle: true,
+    //     groupHeaders: [
+    //         {startColumnName: 'A', numberOfColumns: 3, titleText: '二级表头1'},
+    //         {startColumnName: 'D', numberOfColumns: 2, titleText: '二级表头2'}
+    //     ]
+    // });
+    //
+    // jQuery("#table_list").jqGrid("setComplexGroupHeaders", {
+    //     complexGroupHeaders: [
+    //         {startColumnName: 'A', numberOfColumns: 7, titleText: '基本信息A'}
+    //     ]
+    // });
 })

@@ -68,6 +68,9 @@
 	background-color: #eeeeee;
 	vertical-align: middle;
 }
+.ui-jqgrid .ui-jqgrid-htable thead th input[type="checkbox"] {
+	margin-right: 3px;
+}
 .ui-jqgrid .ui-jqgrid-htable thead th div {
 	overflow: hidden; 
 	position:relative;
@@ -189,8 +192,10 @@ div.tablediv > .table-bordered {
 .ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td {
 	overflow: hidden;
 	white-space: pre;
-	padding-right: 2px;
-	padding-left: 13px;
+	padding-right: 5px;
+}
+.ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td input{
+	vertical-align:middle
 }
 .ui-jqgrid tr.jqgfirstrow  td {
 	height:auto; 
@@ -208,7 +213,7 @@ div.tablediv > .table-bordered {
 }
 .ui-jqgrid tr.ui-row-ltr td {}
 .ui-jqgrid tr.ui-row-rtl td {}
-.ui-jqgrid td.jqgrid-rownum { }
+.ui-jqgrid td.jqgrid-rownum {}
 .ui-jqgrid .ui-jqgrid-resize-mark { 
 	width:2px; 
 	left:0; 
