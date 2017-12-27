@@ -1,0 +1,37 @@
+http://momentjs.cn/  官方网站
+https://github.com/moment/moment/ github地址
+
+moment.min.js 单语言版本,版本号：2.10.6
+moment-with-locales.min.js 多语言版本,版本号：2.10.6
+
+
+日期格式化
+moment().format('MMMM Do YYYY, h:mm:ss a'); // 十二月 27日 2017, 4:12:59 下午
+moment().format('dddd');                    // 星期三
+moment().format("MMM Do YY");               // 12月 27日 17
+moment().format('YYYY [escaped] YYYY');     // 2017 escaped 2017
+moment().format();                          // 2017-12-27T16:12:59+08:00
+相对时间
+moment("20111031", "YYYYMMDD").fromNow(); // 6 年前
+moment("20120620", "YYYYMMDD").fromNow(); // 6 年前
+moment().startOf('day').fromNow();        // 16 小时前
+moment().endOf('day').fromNow();          // 8 小时内
+moment().startOf('hour').fromNow();       // 13 分钟前
+日历时间
+moment().subtract(10, 'days').calendar(); // 2017年12月17日
+moment().subtract(6, 'days').calendar();  // 上周四下午4点12
+moment().subtract(3, 'days').calendar();  // 上周日下午4点12
+moment().subtract(1, 'days').calendar();  // 昨天下午4点12分
+moment().calendar();                      // 今天下午4点12分
+moment().add(1, 'days').calendar();       // 明天下午4点12分
+moment().add(3, 'days').calendar();       // 本周六下午4点12
+moment().add(10, 'days').calendar();      // 2018年1月6日
+多语言支持
+moment().format('L');    // 2017-12-27
+moment().format('l');    // 2017-12-27
+moment().format('LL');   // 2017年12月27日
+moment().format('ll');   // 2017年12月27日
+moment().format('LLL');  // 2017年12月27日下午4点13分
+moment().format('lll');  // 2017年12月27日下午4点13分
+moment().format('LLLL'); // 2017年12月27日星期三下午4点13分
+moment().format('llll'); // 2017年12月27日星期三下午4点13分
