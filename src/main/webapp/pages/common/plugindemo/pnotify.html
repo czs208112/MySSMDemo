@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../../../plugins/pnotify/pnotify.css" rel="stylesheet">
+</head>
+<body>
+<button onclick="sendNotify()">点击弹出</button>
+</body>
+
+<script src="../../../plugins/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="../../../plugins/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<script src="../../../plugins/pnotify/pnotify.js" type="text/javascript"></script>
+<script src="../../../plugins/pnotify/pnotify.animate.js" type="text/javascript"></script>
+<script src="../../../plugins/pnotify/pnotify.history.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    function sendNotify() {
+        var stack_topleft ={"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
+        new PNotify({
+            title: "删除成功",
+            styling: "bootstrap3", //"brighttheme", "bootstrap3", "fontawesome"
+            width: "350px",
+            min_height: "5px",
+            shadow: true,
+            height: "300px",
+            text: 'That thing that you were trying to do worked!',
+            type: 'info', //"notice", "info", "success", or "error".
+            delay: 2000,
+            stack: stack_topleft
+        });
+    }
+</script>
+</html>

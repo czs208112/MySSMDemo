@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../../../plugins/bTabs/b.tabs.css" rel="stylesheet">
+</head>
+<body>
+<!-- 菜单导航，非必须，具体使用时更换为具体的管件 -->
+<div class="span2">
+    <div class="well menuSideBar" style="padding: 8px 0px;">
+        <ul class="nav nav-list" id="menuSideBar">
+            <li class="nav-header">导航菜单</li>
+            <li class="divider"></li>
+            <li mid="tab1" funurl="pnotify.html"><a tabindex="-1" href="javascript:void(0);">页面1</a>
+            </li>
+            <li mid="tab2" funurl="pnotify.html"><a tabindex="-1" href="javascript:void(0);">页面2</a>
+            </li>
+            <li mid="tab3" funurl="pnotify.html"><a tabindex="-1" href="javascript:void(0);">页面3</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- 标签页区域 -->
+<div class="span10" id="mainFrameTabs">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <!-- 设置默认的首页标签页，设置noclose样式，则不会被关闭 -->
+        <li role="presentation" class="active noclose"><a href="#bTabs_navTabsMainPage" data-toggle="tab">首页</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <!-- 默认标签页（首页）的内容区域 -->
+        <div class="tab-pane active" id="bTabs_navTabsMainPage">
+            <div class="page-header">
+                <h2 style="font-size: 31.5px;text-align: center;font-weight: normal;">欢迎使用</h2>
+            </div>
+            <div style="text-align: center;font-size: 20px;line-height: 20px;">
+                Welcome to use bTabs plugin!
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+<script src="../../../plugins/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="../../../plugins/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<script src="../../../plugins/bTabs/b.tabs.js" type="text/javascript"></script>
+<script src="../../../plugins/bTabs/jquery-ui.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    //导航区域项目点击增加标签页处理
+    //仅演示功能
+    $('a', $('#menuSideBar')).on('click', function (e) {
+        e.stopPropagation();
+        var li = $(this).closest('li');
+        var menuId = $(li).attr('mid');
+        var url = $(li).attr('funurl');
+
+        var title = $(this).text();
+        //校验登录是否超时，通常使用ajax访问服务端测试登录是否超时
+        //若页面端已有超时自动跳转的处理，则不需要设置该回调
+        var checkLogin = function () {
+
+        };
+
+        $('#mainFrameTabs').bTabsAdd(menuId, title, url, false);
+        return false;
+    });
+
+    //插件的初始化
+    $('#mainFrameTabs').bTabs({
+        loginCheck: false,
+        // 'loginUrl': 'pnotify.html',
+        //用于初始化主框架的宽度高度等，另外会在窗口尺寸发生改变的时候，也自动进行调整
+        'resize': function () {
+            //这里只是个样例，具体的情况需要计算
+            $('#mainFrameTabs').height(100);
+        }
+    });
+</script>
+</html>
