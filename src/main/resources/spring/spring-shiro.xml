@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 項目自定义的Realm -->
+    <bean id="shiroRealm" class="com.summit.framework.shiro.MyShiroRealm">
+        <property name="cachingEnabled" value="true"/>
+        <property name="authenticationCachingEnabled" value="true"/>
+        <property name="authenticationCacheName" value="authenticationCache"/>
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="authorizationCache"/>
+    </bean>
+
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- session的失效时长，单位毫秒 -->
+        <property name="globalSessionTimeout" value="600000"/>
+        <!-- 删除失效的session -->
+        <property name="deleteInvalidSessions" value="true"/>
+    </bean>
+
+    <!-- rememberMeManager管理器，写cookie，取出cookie生成用户信息 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+
+    <!-- 记住我cookie -->
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <!-- rememberMe是cookie的名字 -->
+        <constructor-arg value="rememberMe"/>
+        <!-- 记住我cookie生效时间30天 -->
+        <property name="maxAge" value="2592000"/>
+    </bean>
+
+    <!-- Shiro securityManager -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="shiroRealm"/>
+
+        <!-- 会话管理 -->
+        <property name="sessionManager" ref="sessionManager"/>
+
+        <!-- 记住我 -->
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+    </bean>
+
+    <!-- 基于form表单的身份验证过滤器 带有验证码的过滤-->
+    <bean id="myformAuthenticationFilter" class="com.summit.framework.shiro.MyFormAuthenticationFilter">
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+        <property name="rememberMeParam" value="rememberMe"/>
+        <!--<property name="loginUrl" value="/userlogin/login.do"/>-->
+        <!--<property name="successUrl" value="/pages/common/index.jsp"/>-->
+        <property name="failureKeyAttribute" value="shiroLoginFailure"/>
+    </bean>
+
+    <!-- 验证码的过滤器 -->
+    <bean id="jCaptchaFilter" class="com.summit.framework.shiro.JCaptchaValidateFilter">
+        <property name="failureKeyAttribute" value="shiroLoginFailure"/>
+        <property name="jcaptchaParam" value="validateCode"/><!-- 页面的参数名-->
+        <property name="jcaptchaEbabled" value="true"/>
+    </bean>
+
+    <!-- Shiro Filter -->
+    <bean id="shiroFilter"
+          class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- Shiro的核心安全接口,这个属性是必须的 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 要求登录时的链接(可根据项目的URL进行替换),非必须的属性,默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->
+        <property name="loginUrl" value="/userlogin/login.do"/>
+        <property name="successUrl" value="/pages/common/index.jsp"/>
+        <property name="unauthorizedUrl" value="/pages/common/error.jsp"/>
+        <property name="filters">
+            <!-- anon：它对应的过滤器里面是空的,什么都没做,这里.do和.jsp后面的*表示参数,比方说login.jsp?main这种 -->
+            <!-- authc：默认情况下，该过滤器下的页面必须验证后才能访问,它是Shiro内置的一个拦截器org.apache.shiro.web.filter.authc.FormAuthenticationFilter -->
+            <map>
+                <!--<entry key="authc" value-ref="formAuthenticationFilter"/>-->
+                <entry key="authc" value-ref="myformAuthenticationFilter"/>
+                <entry key="jcaptcha" value-ref="jCaptchaFilter"/>
+                <!--<entry key="sysUser" value-ref="sysUserFilter"/>-->
+                <!--<entry key="kickout" value-ref="kickoutFilter"/>-->
+                <!--添加ssl支持-->
+                <!--<entry key="ssl" value-ref="sslFilter"/>-->
+                <!-- 结束ssl支持-->
+            </map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                <!--/login=jcaptcha,authc-->
+                /userlogin/login.do = jcaptcha,authc
+                /pages/common/index.jsp = anon
+                /**/*.do = anon
+                /pages/** = anon
+                /img/** = anon
+                /plugins/** = anon
+                /sockjs/** = anon
+                /** = anon
+            </value>
+        </property>
+    </bean>
+</beans>

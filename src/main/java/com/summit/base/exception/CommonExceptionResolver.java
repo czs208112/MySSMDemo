@@ -1,4 +1,4 @@
-package com.summit.base;
+package com.summit.base.exception;
 
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 异常处理使用了CustomControllerAdvice
+ * 这个类用不上了
+ */
 public class CommonExceptionResolver extends SimpleMappingExceptionResolver {
 
     @Override

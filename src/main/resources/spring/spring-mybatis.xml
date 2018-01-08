@@ -49,7 +49,6 @@
     <!--<property name="jdbcUrl" value="${jdbc.url}"/>-->
     <!--<property name="user" value="${jdbc.username}"/>-->
     <!--<property name="password" value="${jdbc.password}"/>-->
-
     <!--&lt;!&ndash; c3p0连接池的私有属性 &ndash;&gt;-->
     <!--<property name="maxPoolSize" value="30"/>-->
     <!--<property name="minPoolSize" value="10"/>-->
@@ -61,16 +60,16 @@
     <!--<property name="acquireRetryAttempts" value="2"/>-->
     <!--</bean>-->
 
-    <!--&lt;!&ndash;BasicDataSource&ndash;&gt;-->
-    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"-->
-          <!--destroy-method="close" lazy-init="false" p:driverClassName="${jdbc.driverClassName}"-->
-          <!--p:url="${jdbc.url}" p:username="${jdbc.username}" p:password="${jdbc.password}"-->
-          <!--p:initialSize="5" p:maxActive="50" p:maxIdle="5" p:maxWait="1000"-->
-          <!--p:poolPreparedStatements="false" p:defaultAutoCommit="true"-->
-          <!--p:removeAbandoned="true" p:removeAbandonedTimeout="60"-->
-          <!--p:validationQuery="select 1 from dual" p:testOnBorrow="true"-->
-          <!--p:timeBetweenEvictionRunsMillis="10000" p:minEvictableIdleTimeMillis="10000">-->
-    <!--</bean>-->
+    <!--BasicDataSource-->
+   <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close" lazy-init="false" p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.url}" p:username="${jdbc.username}" p:password="${jdbc.password}"
+          p:initialSize="5" p:maxActive="50" p:maxIdle="5" p:maxWait="1000"
+          p:poolPreparedStatements="false" p:defaultAutoCommit="true"
+          p:removeAbandoned="true" p:removeAbandonedTimeout="60"
+          p:validationQuery="select 1 from dual" p:testOnBorrow="true"
+          p:timeBetweenEvictionRunsMillis="10000" p:minEvictableIdleTimeMillis="10000">
+    </bean>-->
 
     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件. -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

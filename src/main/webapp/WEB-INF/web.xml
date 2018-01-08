@@ -7,7 +7,7 @@
     <!-- 配置文件所在位置 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/spring-application.xml,classpath:spring/spring-mybatis.xml</param-value>
+        <param-value>classpath:spring/spring-application.xml,classpath:spring/spring-shiro.xml,classpath:spring/spring-mybatis.xml</param-value>
     </context-param>
     <!-- Spring配置（监听器） -->
     <listener>
@@ -54,7 +54,7 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>pages/upload/upload.jsp</welcome-file>
+        <welcome-file>pages/common/index.jsp</welcome-file>
     </welcome-file-list>
 
     <!-- 解决工程编码过滤器 -->

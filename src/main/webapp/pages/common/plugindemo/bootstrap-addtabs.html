@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../../../plugins/bootStrap-addTabs/bootstrap.addtabs.css" rel="stylesheet">
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-2">
+                <ul class="list-group">
+                    <a class="list-group-item" data-addtab="mail" data-url="./addtabs_data.txt">
+                        mailbox
+                    </a>
+                    <a class="list-group-item" data-addtab="mail1" data-ajax="true" data-url="example/ajax/mailbox.txt">
+                        Use Ajax
+                    </a>
+                    <a class="list-group-item" data-addtab="message" data-content="Customize the content" data-url="example/ajax/mailbox.txt">
+                        <i class="glyphicon glyphicon-bullhorn">
+                        </i>
+                        指定内容
+                    </a>
+                    <a class="list-group-item" data-addtab="setting" data-title="Customize the title" data-url="example/ajax/mailbox.txt">
+                        <i class="glyphicon glyphicon-cog">
+                        </i>
+                        指定标题
+                    </a>
+                    <a class="list-group-item" data-addtab="userMenu1" data-url="example/ajax/mailbox.txt">
+                        用户菜单1
+                    </a>
+                    <a class="list-group-item" data-addtab="userMenu2" data-target="#tabs2" data-url="example/ajax/button.html">
+                        target2
+                    </a>
+                    <a class="list-group-item" data-addtab="sina" data-url="http://sina.com.cn">
+                        新浪
+                    </a>
+                    <a class="list-group-item" data-addtab="baidu" data-url="http://baidu.com">
+                        百度
+                    </a>
+                    <a class="list-group-item" id="closeAll">
+                        关闭所有
+                    </a>
+                </ul>
+            </div>
+            <div class="col-sm-10">
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" id="tabs1" role="tablist">
+                        <li class="active" role="presentation">
+                            <a aria-controls="home" data-toggle="tab" href="#home" role="tab">
+                                Home
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home" role="tabpanel">
+                            I'm a homepage.
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" id="tabs2" role="tablist">
+                        <li class="active" role="presentation">
+                            <a aria-controls="home1" data-toggle="tab" href="#home1" role="tab">
+                                Home
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home1" role="tabpanel">
+                            I'm a homepage.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="../../../plugins/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="../../../plugins/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<script src="../../../plugins/bootStrap-addTabs/bootstrap.addtabs.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+</script>
+</html>

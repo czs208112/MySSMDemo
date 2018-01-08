@@ -1,15 +1,18 @@
 package com.summit.common.uesrLogin.controller;
 
+import com.summit.base.Constants;
+import com.summit.base.exception.CustomException;
 import com.summit.common.uesrLogin.service.UserManagerService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,19 +23,41 @@ public class Login {
     UserManagerService userManagerService;
 
     /**
-     * 用于处理全局异常
+     * 用于处理异常
      *
      * @return
+     * @ExceptionHandler 的方式只能处理当前类的异常，处理全局异常可以用@ControllerAdvice
      */
-    @ExceptionHandler({Exception.class})
-    public String exception(Exception e) {
-        System.out.println(e.getMessage());
-        e.printStackTrace();
-        return e.getMessage();
-    }
-
+//    @ExceptionHandler({Exception.class})
+//    @ResponseBody
+//    public CommonResult exception(Exception e) {
+//        CommonResult result = new CommonResult();
+//        System.out.println(e.getMessage());
+//        e.printStackTrace();
+//        result.setSuccess(false);
+//        result.setErrorText(e.getMessage());
+//        return result;
+//    }
     @RequestMapping("login")
-    public String login(HttpServletRequest request) {
+    @ResponseBody
+    public String login(HttpServletRequest request) throws Exception {
+
+        //如果登陆失败从request中获取认证异常信息，shiroLoginFailure就是shiro异常类的全限定名
+        String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
+        //根据shiro返回的异常类路径判断，抛出指定异常信息
+        if (exceptionClassName != null) {
+            if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
+                //最终会抛给异常处理器
+                throw new CustomException("账号不存在");
+            } else if (IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
+                throw new CustomException("用户名/密码错误");
+            } else if (Constants.FAILURE_VALUE_ATTRIBUTE.equals(exceptionClassName)) {
+                throw new CustomException("验证码错误 ");
+            } else {
+                throw new CustomException("未知错误");//最终在异常处理器生成未知错误
+            }
+        }
+
         // List<User> userList = userManagerService.getUserList();
 
         String name = request.getParameter("name");

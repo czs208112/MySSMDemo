@@ -3,55 +3,18 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:websocket="http://www.springframework.org/schema/websocket"
        xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- 加载properties文件,数据库配置放在spring-mybatis.xml
-    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="locations">
-            <list>
-                <value>classpath:jdbc.properties</value>
-            </list>
-        </property>
-    </bean> -->
+    <!-- 扫描以下包,但不扫描@Controller,@Controller交给springMVC容器扫描,原因https://www.cnblogs.com/hafiz/p/5875740.html -->
+    <context:component-scan base-package="com.summit">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
-    <!-- 項目自定义的Realm -->
-    <bean id="shiroRealm" class="com.summit.framework.shiro.MyShiroRealm">
-        <property name="cachingEnabled" value="true"/>
-        <property name="authenticationCachingEnabled" value="true"/>
-        <property name="authenticationCacheName" value="authenticationCache"/>
-        <property name="authorizationCachingEnabled" value="true"/>
-        <property name="authorizationCacheName" value="authorizationCache"/>
-    </bean>
-
-    <!-- Shiro securityManager -->
-    <bean id="securityManager"
-          class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="shiroRealm"/>
-    </bean>
-
-    <!-- Shiro Filter -->
-    <bean id="shiroFilter"
-          class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/pages/common/login.jsp"/>
-        <property name="successUrl" value="/pages/common/index.jsp"/>
-        <property name="unauthorizedUrl" value="/pages/common/error.jsp"/>
-        <property name="filterChainDefinitions">
-            <value>
-                /pages/common/login.jsp = anon
-                /pages/common/index.jsp = authc
-                /**/*.jsp = anon
-                /**/*.css = anon
-                /**/*.js = anon
-                /**/*.do = anon
-                /pages/** = anon
-                /plugins/** = anon
-                /sockjs/** = anon
-                /** = authc
-            </value>
-        </property>
-    </bean>
+    <!--全局异常处理-->
+    <!--改用了异常处理改为使用CustomControllerAdvice，CommonExceptionResolver用不上了-->
+    <!--<bean id="exceptionSolver" class="com.summit.base.exception.CommonExceptionResolver"/>-->
 
     <!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -60,9 +23,6 @@
         <property name="maxInMemorySize" value="4096"/>
         <property name="uploadTempDir" value="temp/fileUpload"/>
     </bean>
-
-    <!--全局异常处理-->
-    <bean id="exceptionSolver" class="com.summit.base.CommonExceptionResolver"/>
 
     <bean name="d2,d3" id="d1" class="com.summit.common.injectDemo.model.Dog">
         <property name="name" value="哈士奇小哈"/>
@@ -93,14 +53,14 @@
     </websocket:handlers>-->
 
     <!--sockjs实现websocket-->
-  <!--  <websocket:handlers>
-        <websocket:mapping path="/ws.do" handler="demoWSHandler"/>
-        <websocket:handshake-interceptors>
-            <bean class="com.summit.common.websocket.HandshakeInterceptor"/>
-        </websocket:handshake-interceptors>
-        <websocket:sockjs/>
-    </websocket:handlers>
-    <bean id="demoWSHandler" class="com.summit.common.websocket.DemoWSHandler"/>-->
+    <!--  <websocket:handlers>
+          <websocket:mapping path="/ws.do" handler="demoWSHandler"/>
+          <websocket:handshake-interceptors>
+              <bean class="com.summit.common.websocket.HandshakeInterceptor"/>
+          </websocket:handshake-interceptors>
+          <websocket:sockjs/>
+      </websocket:handlers>
+      <bean id="demoWSHandler" class="com.summit.common.websocket.DemoWSHandler"/>-->
 
     <!--encache相关配置start-->
     <cache:annotation-driven cache-manager="cacheManager"/>

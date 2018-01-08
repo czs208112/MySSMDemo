@@ -2,7 +2,6 @@ package com.summit.encacheTest;
 
 
 import com.summit.cache.cachedemo.CacheDemo;
-import com.summit.common.injectDemo.controller.DemoInject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
