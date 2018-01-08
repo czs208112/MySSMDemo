@@ -1,5 +1,6 @@
 package com.summit.common.uesrLogin.controller;
 
+import com.summit.base.CommonResult;
 import com.summit.base.Constants;
 import com.summit.base.exception.CustomException;
 import com.summit.common.uesrLogin.service.UserManagerService;
@@ -82,6 +83,28 @@ public class Login {
             return "common/error";
         }
         return "common/success";
+    }
+
+    @RequestMapping("checkValidateCode")
+    @ResponseBody
+    public CommonResult checkValidateCode(HttpServletRequest request) throws Exception {
+        CommonResult commonResult = new CommonResult();
+        //如果登陆失败从request中获取认证异常信息，shiroLoginFailure就是shiro异常类的全限定名
+        String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
+        //根据shiro返回的异常类路径判断，抛出指定异常信息
+        if (exceptionClassName != null) {
+            if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
+                //最终会抛给异常处理器
+                throw new CustomException("账号不存在");
+            } else if (IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
+                throw new CustomException("用户名/密码错误");
+            } else if (Constants.FAILURE_VALUE_ATTRIBUTE.equals(exceptionClassName)) {
+                throw new CustomException("验证码错误 ");
+            } else {
+                throw new CustomException("未知错误");//最终在异常处理器生成未知错误
+            }
+        }
+        return commonResult;
     }
 
     @RequestMapping("demo")

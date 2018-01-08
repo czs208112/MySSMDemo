@@ -2,7 +2,6 @@ package com.summit.base.exception;
 
 import com.summit.base.CommonResult;
 import com.summit.common.uesrLogin.model.User;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +29,10 @@ public class CustomControllerAdvice {
      * @return
      */
     @ExceptionHandler(CustomException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public CommonResult handleCustomException(Exception e) {
-        System.out.println("===========应用到所有@RequestMapping注解的方法，在其抛出UnauthenticatedException异常时执行");
+        System.out.println("===========应用到所有@RequestMapping注解的方法，在其抛出CustomException异常时执行");
         CommonResult result = new CommonResult();
         System.out.println(e.getMessage());
         e.printStackTrace();
@@ -49,7 +48,7 @@ public class CustomControllerAdvice {
      * @return
      */
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String handleException2(Exception e) {
         System.out.println("===========应用到所有@RequestMapping注解的方法，在其抛出UnauthenticatedException异常时执行");
         return "error";

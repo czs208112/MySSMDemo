@@ -86,7 +86,8 @@
         <property name="filterChainDefinitions">
             <value>
                 <!--/login=jcaptcha,authc-->
-                /userlogin/login.do = jcaptcha,authc
+                /userlogin/login.do = authc
+                /userlogin/checkValidateCode.do = jcaptcha
                 /pages/common/index.jsp = anon
                 /**/*.do = anon
                 /pages/** = anon

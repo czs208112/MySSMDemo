@@ -19,7 +19,7 @@
                 <input class="form-control col-md-10" type="text" placeholder="账号" name="name" value="lxx">
             </div>
             <div class="form-group">
-                <i class="fa fa-user fa-lg col-md-1"></i>
+                <i class="fa fa-lock fa-lg col-md-1"></i>
                 <input class="form-control col-md-10" type="password" placeholder="密码" name="password" value="Mouse">
             </div>
             <div class="form-group">
@@ -33,14 +33,16 @@
             </div>
             <span class="col-md-offset-1" style="color:#ff1800;padding-left: 5px;margin-top: -20px;"
                   id="errorMsg" hidden>1111</span>
-            <div class="form-group btn-control" style="padding-left:30px;">
-                <input class="col-md-offset-1 col-md-3 btn btn-primary" type="button" id='submit' value="登陆">
+            <div class="form-group btn-control" style="padding-left:20%;">
+                <input class="col-md-offset-1 col-md-3 btn btn-primary" type="submit" id='submit' value="登陆">
                 <input class="col-md-offset-1 col-md-3 btn btn-default" type="reset" value="重置"></div>
         </form>
     </div>
 </div>
 <script src="${pageContext.request.contextPath}/plugins/jquery-1.11.3.min.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/plugins/jquery-validation/jquery.validate.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/plugins/jquery-validation/messages_zh.js" type="text/javascript"></script>
 <script type="text/javascript">
 
     function chgValidateCode() {
@@ -49,38 +51,76 @@
     }
 
     $().ready(function () {
+        $("#yourformid").validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 5
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                validateCode: {
+                    required: true,
+                    remote: {
+                        type: "POST",
+                        dataType: "json",
+                        url: "${pageContext.request.contextPath}/userlogin/checkValidateCode.do", //请求地址
+                        data: {
+                            validateCode: function () {
+                                return $("input[name=validateCode]").val();
+                            }
+                        },
+                        dataFilter: function (data, type) {
+                            var resultJsonData = JSON.parse(data)
+                            return resultJsonData.success;
+                        }
+                    }
+                }
+            },
+            messages: {
+                name: {
+                    required: "请输入用户名",
+                    minlength: "用户名必至少5位"
+                },
+                password: {
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于 5 个字母"
+                },
+                validateCode: {
+                    required: "请输入验证码",
+                    remote: "验证码错误"
+                }
+            }, submitHandler: function (form) {
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    url: "${pageContext.request.contextPath}/userlogin/login.do",
+                    data: $('#yourformid').serialize(),// 你的formid
+                    async: false,
+                    error: function (request) {
+                        $("#errorMsg").html('连接异常')
+                    },
+                    success: function (data) {
+                        if (data.success == false) {
+                            // $("#errorMsg").html(data.errorMsgrorText)
+                            chgValidateCode();
+                            return false;
+                        }
+                        console.log(data)
+                        // $("#commonLayout_appcreshi").parent().html(data);
+                    }
+                })
+
+            }
+        })
+
         $(".change-code").on("click", function () {
             chgValidateCode();
         })
 
-        $("#submit").on("click", function () {
-            $.ajax({
-                cache: true,
-                type: "POST",
-                url: "${pageContext.request.contextPath}/userlogin/login.do",
-                data: $('#yourformid').serialize(),// 你的formid
-                async: false,
-                error: function (request) {
-                    $("#errorMsg").html('连接异常')
-                },
-                success: function (data) {
-                    if (data.success == false) {
-                        // $("#errorMsg").html(data.errorMsgrorText)
-                        chgValidateCode();
-                        $("#submit").attr("disabled", "disabled");
-                        sleep(5000)
-                        $("#submit").removeAttr("disabled");
-                        alert(2222)
-                        return false;
-                    }
-                    console.log(data)
-                    // $("#commonLayout_appcreshi").parent().html(data);
-                }
-            })
-        });
     })
-
-
 </script>
 </body>
 </html>
