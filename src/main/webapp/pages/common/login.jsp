@@ -6,9 +6,9 @@
     <link href="../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="../../plugins/jqGrid/css/ui.jqgrid-bootstrap.css" rel="stylesheet">
     <link href="../../plugins/jqGrid/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet">
+    <link href="../../plugins/poshytip/tip-yellowsimple/tip-yellowsimple.css" rel="stylesheet">
     <link href="../../plugins/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="../../customer/css/login.css" rel="stylesheet">
-    <link href="../../plugins/layer/theme/default/layer.css" rel="stylesheet">
     <link href="../../plugins/pnotify/pnotify.css" rel="stylesheet">
 </head>
 <body>
@@ -41,8 +41,8 @@
 </div>
 <script src="${pageContext.request.contextPath}/plugins/jquery-1.11.3.min.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/bootstrap/js/bootstrap.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/plugins/layer/layer.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/plugins/jquery-form/jquery.form.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/plugins/poshytip/jquery.poshytip.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/plugins/pnotify/pnotify.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -62,9 +62,18 @@
                     if (data.success == false) {
                         if (data.resultType == 1000) {
                             chgValidateCode();
-                            layer.tips(data.resultMessage, '.code-input', {
-                                tips: [4, '#ff9a0a']
+                            $('.code-input').poshytip({
+                                content: data.resultMessage,
+                                className: 'tip-yellowsimple',
+                                bgImageFrameSize: 1,
+                                showOn: 'none',
+                                alignTo: 'target',
+                                alignX: 'right',
+                                alignY: 'bottom',
                             });
+                            $('.code-input').poshytip('show');
+                            $('.code-input').poshytip('hideDelayed', 1000);
+
                         } else if (data.resultType == 1010) {
                             sendNotify(data.resultMessage)
                             // layer.tips(data.resultMessage, '#submit', {

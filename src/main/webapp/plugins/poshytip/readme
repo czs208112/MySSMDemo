@@ -1,0 +1,43 @@
+详细的参数说明如下：
+$.fn.poshytip.defaults = {
+// 提示内容默认为元素的标题，可以使指定的字符串、元素、回调函数、jquery对象
+content:'[title]',
+  // 指定的tips class样式
+className:'tip-yellow',
+//按照像素计算背景图片和显示内容的内边距
+bgImageFrameSize:10,
+showTimeout:500,// 延时多久开始显示
+hideTimeout:100,// 延时多久开始隐藏
+timeOnScreen:0,// 自动隐藏之前延时多久
+//显示方式 支持'hover'鼠标划入、'focus' 获取焦点、'none'手动显式调用
+showOn:'hover',
+liveEvents:false,// 支持live  事件  同样可以对未来元素进行影响
+alignTo:'cursor',// 和谁进行对齐 ('cursor' 鼠标, 'target' 目标元素)
+// 水平方向对齐方式 可选参数：
+//('right', 'center', 'left', 'inner-left', 'inner-right')
+alignX:'right',
+// 垂直方向对齐方式 可选参数：
+//('bottom', 'center', 'top', 'inner-bottom', 'inner-top')
+alignY:'top',
+offsetX:-22,// 水平偏移量
+offsetY:18,// 垂直方向偏移量
+//hover显示方式下，允许鼠标离开元素仍然显示提示信息
+allowTipHover:true,
+// 提示信息随着鼠标移动  只在满足hover显示方式下，对齐方式为alignTo:'cursor' 才有效
+followCursor:false,
+fade:true,// 使用动画
+slide:true,// 使用slie效果
+slideOffset:8,// slide 动画的偏移量
+// 动画显示的时间间隔 如果不想动画效果，设置为0即可
+showAniDuration:300,
+// 动画隐藏的时间间隔 如果不想动画效果，设置为0即可
+hideAniDuration:300
+};
+
+核心方法:
+.poshytip('show')    手动显示tip
+.poshytip('hide')    手动隐藏tip
+.poshytip('update', content, [ dontOverwriteOption ] )  手动更新tip
+.poshytip('disable')  tip不可用
+.poshytip('enable')   tip可用
+.poshytip('destroy')  销毁tip
