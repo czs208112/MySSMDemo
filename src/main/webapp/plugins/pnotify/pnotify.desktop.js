@@ -1,3 +1,157 @@
 // Desktop
-!function(i,t){"function"==typeof define&&define.amd?define("pnotify.desktop",["jquery","pnotify"],t):"object"==typeof exports&&"undefined"!=typeof module?module.exports=t(require("jquery"),require("./pnotify")):t(i.jQuery,i.PNotify)}("undefined"!=typeof window?window:this,function(i,t){var o,n=function(i,t){return(n="Notification"in window?function(i,t){return new Notification(i,t)}:"mozNotification"in navigator?function(i,t){return navigator.mozNotification.createNotification(i,t.body,t.icon).show()}:"webkitNotifications"in window?function(i,t){return window.webkitNotifications.createNotification(t.icon,i,t.body)}:function(i,t){return null})(i,t)};return t.prototype.options.desktop={desktop:!1,fallback:!0,icon:null,tag:null,title:null,text:null},t.prototype.modules.desktop={genNotice:function(i,t){null===t.icon?this.icon="http://sciactive.com/pnotify/includes/desktop/"+i.options.type+".png":!1===t.icon?this.icon=null:this.icon=t.icon,null!==this.tag&&null===t.tag||(this.tag=null===t.tag?"PNotify-"+Math.round(1e6*Math.random()):t.tag),i.desktop=n(t.title||i.options.title,{icon:this.icon,body:t.text||i.options.text,tag:this.tag}),!("close"in i.desktop)&&"cancel"in i.desktop&&(i.desktop.close=function(){i.desktop.cancel()}),i.desktop.onclick=function(){i.elem.trigger("click")},i.desktop.onclose=function(){"closing"!==i.state&&"closed"!==i.state&&i.remove()}},init:function(i,n){if(n.desktop){if(0!==(o=t.desktop.checkPermission()))return void(n.fallback||(i.options.auto_display=!1));this.genNotice(i,n)}},update:function(i,t,n){0!==o&&t.fallback||!t.desktop||this.genNotice(i,t)},beforeOpen:function(i,t){0!==o&&t.fallback||!t.desktop||i.elem.css({left:"-10000px"}).removeClass("ui-pnotify-in")},afterOpen:function(i,t){0!==o&&t.fallback||!t.desktop||(i.elem.css({left:"-10000px"}).removeClass("ui-pnotify-in"),"show"in i.desktop&&i.desktop.show())},beforeClose:function(i,t){0!==o&&t.fallback||!t.desktop||i.elem.css({left:"-10000px"}).removeClass("ui-pnotify-in")},afterClose:function(i,t){0!==o&&t.fallback||!t.desktop||(i.elem.css({left:"-10000px"}).removeClass("ui-pnotify-in"),"close"in i.desktop&&i.desktop.close())}},t.desktop={permission:function(){"undefined"!=typeof Notification&&"requestPermission"in Notification?Notification.requestPermission():"webkitNotifications"in window&&window.webkitNotifications.requestPermission()},checkPermission:function(){return"undefined"!=typeof Notification&&"permission"in Notification?"granted"===Notification.permission?0:1:"webkitNotifications"in window&&0==window.webkitNotifications.checkPermission()?0:1}},o=t.desktop.checkPermission(),t});
-//# sourceMappingURL=pnotify.desktop.js.map
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as a module.
+    define('pnotify.desktop', ['jquery', 'pnotify'], factory);
+  } else if (typeof exports === 'object' && typeof module !== 'undefined') {
+    // CommonJS
+    module.exports = factory(require('jquery'), require('./pnotify'));
+  } else {
+    // Browser globals
+    factory(root.jQuery, root.PNotify);
+  }
+}(typeof window !== "undefined" ? window : this, function($, PNotify){
+  var permission;
+  var notify = function(title, options){
+    // Memoize based on feature detection.
+    if ("Notification" in window) {
+      notify = function (title, options) {
+        return new Notification(title, options);
+      };
+    } else if ("mozNotification" in navigator) {
+      notify = function (title, options) {
+        // Gecko < 22
+        return navigator.mozNotification
+          .createNotification(title, options.body, options.icon)
+          .show();
+      };
+    } else if ("webkitNotifications" in window) {
+      notify = function (title, options) {
+        return window.webkitNotifications.createNotification(
+          options.icon,
+          title,
+          options.body
+        );
+      };
+    } else {
+      notify = function (title, options) {
+        return null;
+      };
+    }
+    return notify(title, options);
+  };
+
+
+  PNotify.prototype.options.desktop = {
+    // Display the notification as a desktop notification.
+    desktop: false,
+    // If desktop notifications are not supported or allowed, fall back to a regular notice.
+    fallback: true,
+    // The URL of the icon to display. If false, no icon will show. If null, a default icon will show.
+    icon: null,
+    // Using a tag lets you update an existing notice, or keep from duplicating notices between tabs.
+    // If you leave tag null, one will be generated, facilitating the "update" function.
+    // see: http://www.w3.org/TR/notifications/#tags-example
+    tag: null,
+    // Optionally display a different title for the desktop.
+    title: null,
+    // Optionally display different text for the desktop.
+    text: null
+  };
+  PNotify.prototype.modules.desktop = {
+    genNotice: function(notice, options){
+      if (options.icon === null) {
+        this.icon = "http://sciactive.com/pnotify/includes/desktop/"+notice.options.type+".png";
+      } else if (options.icon === false) {
+        this.icon = null;
+      } else {
+        this.icon = options.icon;
+      }
+      if (this.tag === null || options.tag !== null) {
+        this.tag = options.tag === null ? "PNotify-"+Math.round(Math.random() * 1000000) : options.tag;
+      }
+      notice.desktop = notify(options.title || notice.options.title, {
+        icon: this.icon,
+        body: options.text || notice.options.text,
+        tag: this.tag
+      });
+      if (!("close" in notice.desktop) && ("cancel" in notice.desktop)) {
+        notice.desktop.close = function(){
+          notice.desktop.cancel();
+        };
+      }
+      notice.desktop.onclick = function(){
+        notice.elem.trigger("click");
+      };
+      notice.desktop.onclose = function(){
+        if (notice.state !== "closing" && notice.state !== "closed") {
+          notice.remove();
+        }
+      };
+    },
+    init: function(notice, options){
+      if (!options.desktop)
+        return;
+      permission = PNotify.desktop.checkPermission();
+      if (permission !== 0) {
+        // Keep the notice from opening if fallback is false.
+        if (!options.fallback) {
+          notice.options.auto_display = false;
+        }
+        return;
+      }
+      this.genNotice(notice, options);
+    },
+    update: function(notice, options, oldOpts){
+      if ((permission !== 0 && options.fallback) || !options.desktop)
+        return;
+      this.genNotice(notice, options);
+    },
+    beforeOpen: function(notice, options){
+      if ((permission !== 0 && options.fallback) || !options.desktop)
+        return;
+      notice.elem.css({'left': '-10000px'}).removeClass('ui-pnotify-in');
+    },
+    afterOpen: function(notice, options){
+      if ((permission !== 0 && options.fallback) || !options.desktop)
+        return;
+      notice.elem.css({'left': '-10000px'}).removeClass('ui-pnotify-in');
+      if ("show" in notice.desktop) {
+        notice.desktop.show();
+      }
+    },
+    beforeClose: function(notice, options){
+      if ((permission !== 0 && options.fallback) || !options.desktop)
+        return;
+      notice.elem.css({'left': '-10000px'}).removeClass('ui-pnotify-in');
+    },
+    afterClose: function(notice, options){
+      if ((permission !== 0 && options.fallback) || !options.desktop)
+        return;
+      notice.elem.css({'left': '-10000px'}).removeClass('ui-pnotify-in');
+      if ("close" in notice.desktop) {
+        notice.desktop.close();
+      }
+    }
+  };
+  PNotify.desktop = {
+    permission: function(){
+      if (typeof Notification !== "undefined" && "requestPermission" in Notification) {
+        Notification.requestPermission();
+      } else if ("webkitNotifications" in window) {
+        window.webkitNotifications.requestPermission();
+      }
+    },
+    checkPermission: function(){
+      if (typeof Notification !== "undefined" && "permission" in Notification) {
+        return (Notification.permission === "granted" ? 0 : 1);
+      } else if ("webkitNotifications" in window) {
+        return window.webkitNotifications.checkPermission() == 0 ? 0 : 1;
+      } else {
+        return 1;
+      }
+    }
+  };
+  permission = PNotify.desktop.checkPermission();
+  return PNotify;
+}));

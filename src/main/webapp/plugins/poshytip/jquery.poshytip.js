@@ -489,8 +489,8 @@
 							// ('right', 'center', 'left', 'inner-left', 'inner-right') - 'inner-*' matter if alignTo:'target'
 		alignY:			'top',		// vertical alignment for the tip relative to the mouse cursor or the target element
 							// ('bottom', 'center', 'top', 'inner-bottom', 'inner-top') - 'inner-*' matter if alignTo:'target'
-		offsetX:		8,		// offset X pixels from the default position - doesn't matter if alignX:'center'
-		offsetY:		-32,		// offset Y pixels from the default position - doesn't matter if alignY:'center'
+		offsetX:		-22,		// offset X pixels from the default position - doesn't matter if alignX:'center'
+		offsetY:		18,		// offset Y pixels from the default position - doesn't matter if alignY:'center'
 		keepInViewport:		true,		// reposition the tooltip if needed to make sure it always appears inside the viewport
 		allowTipHover:		true,		// allow hovering the tip without hiding it onmouseout of the target - matters only if showOn:'hover'
 		followCursor:		false,		// if the tip should follow the cursor - matters only if showOn:'hover' and alignTo:'cursor'

@@ -1,3 +1,120 @@
 // Mobile
-!function(i,o){"function"==typeof define&&define.amd?define("pnotify.mobile",["jquery","pnotify"],o):"object"==typeof exports&&"undefined"!=typeof module?module.exports=o(require("jquery"),require("./pnotify")):o(i.jQuery,i.PNotify)}("undefined"!=typeof window?window:this,function(i,o){return o.prototype.options.mobile={swipe_dismiss:!0,styling:!0},o.prototype.modules.mobile={init:function(i,o){var t=this,e=null,n=null,s=null;this.swipe_dismiss=o.swipe_dismiss,this.doMobileStyling(i,o),i.elem.on({touchstart:function(o){t.swipe_dismiss&&(e=o.originalEvent.touches[0].screenX,s=i.elem.width(),i.container.css("left","0"))},touchmove:function(o){if(e&&t.swipe_dismiss){var a=o.originalEvent.touches[0].screenX;n=a-e;var c=(1-Math.abs(n)/s)*i.options.opacity;i.elem.css("opacity",c),i.container.css("left",n)}},touchend:function(){if(e&&t.swipe_dismiss){if(Math.abs(n)>40){var o=n<0?-2*s:2*s;i.elem.animate({opacity:0},100),i.container.animate({left:o},100),i.remove()}else i.elem.animate({opacity:i.options.opacity},100),i.container.animate({left:0},100);e=null,n=null,s=null}},touchcancel:function(){e&&t.swipe_dismiss&&(i.elem.animate({opacity:i.options.opacity},100),i.container.animate({left:0},100),e=null,n=null,s=null)}})},update:function(i,o){this.swipe_dismiss=o.swipe_dismiss,this.doMobileStyling(i,o)},doMobileStyling:function(o,t){t.styling?(o.elem.addClass("ui-pnotify-mobile-able"),i(window).width()<=480?(o.options.stack.mobileOrigSpacing1||(o.options.stack.mobileOrigSpacing1=o.options.stack.spacing1,o.options.stack.mobileOrigSpacing2=o.options.stack.spacing2),o.options.stack.spacing1=0,o.options.stack.spacing2=0):(o.options.stack.mobileOrigSpacing1||o.options.stack.mobileOrigSpacing2)&&(o.options.stack.spacing1=o.options.stack.mobileOrigSpacing1,delete o.options.stack.mobileOrigSpacing1,o.options.stack.spacing2=o.options.stack.mobileOrigSpacing2,delete o.options.stack.mobileOrigSpacing2)):(o.elem.removeClass("ui-pnotify-mobile-able"),o.options.stack.mobileOrigSpacing1&&(o.options.stack.spacing1=o.options.stack.mobileOrigSpacing1,delete o.options.stack.mobileOrigSpacing1),o.options.stack.mobileOrigSpacing2&&(o.options.stack.spacing2=o.options.stack.mobileOrigSpacing2,delete o.options.stack.mobileOrigSpacing2))}},o});
-//# sourceMappingURL=pnotify.mobile.js.map
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as a module.
+    define('pnotify.mobile', ['jquery', 'pnotify'], factory);
+  } else if (typeof exports === 'object' && typeof module !== 'undefined') {
+    // CommonJS
+    module.exports = factory(require('jquery'), require('./pnotify'));
+  } else {
+    // Browser globals
+    factory(root.jQuery, root.PNotify);
+  }
+}(typeof window !== "undefined" ? window : this, function($, PNotify){
+  PNotify.prototype.options.mobile = {
+    // Let the user swipe the notice away.
+    swipe_dismiss: true,
+    // Styles the notice to look good on mobile.
+    styling: true
+  };
+  PNotify.prototype.modules.mobile = {
+    init: function(notice, options){
+      var that = this,
+          origX = null,
+          diffX = null,
+          noticeWidth = null;
+
+      this.swipe_dismiss = options.swipe_dismiss;
+      this.doMobileStyling(notice, options);
+
+      notice.elem.on({
+        "touchstart": function(e){
+          if (!that.swipe_dismiss) {
+            return;
+          }
+
+          origX = e.originalEvent.touches[0].screenX;
+          noticeWidth = notice.elem.width();
+          notice.container.css("left", "0");
+        },
+        "touchmove": function(e){
+          if (!origX || !that.swipe_dismiss) {
+            return;
+          }
+
+          var curX = e.originalEvent.touches[0].screenX;
+
+          diffX = curX - origX;
+          var opacity = (1 - (Math.abs(diffX) / noticeWidth)) * notice.options.opacity;
+
+          notice.elem.css("opacity", opacity);
+          notice.container.css("left", diffX);
+        },
+        "touchend": function() {
+          if (!origX || !that.swipe_dismiss) {
+            return;
+          }
+
+          if (Math.abs(diffX) > 40) {
+            var goLeft = (diffX < 0) ? noticeWidth * -2 : noticeWidth * 2;
+            notice.elem.animate({"opacity": 0}, 100);
+            notice.container.animate({"left": goLeft}, 100);
+            notice.remove();
+          } else {
+            notice.elem.animate({"opacity": notice.options.opacity}, 100);
+            notice.container.animate({"left": 0}, 100);
+          }
+          origX = null;
+          diffX = null;
+          noticeWidth = null;
+        },
+        "touchcancel": function(){
+          if (!origX || !that.swipe_dismiss) {
+            return;
+          }
+
+          notice.elem.animate({"opacity": notice.options.opacity}, 100);
+          notice.container.animate({"left": 0}, 100);
+          origX = null;
+          diffX = null;
+          noticeWidth = null;
+        }
+      });
+    },
+    update: function(notice, options){
+      this.swipe_dismiss = options.swipe_dismiss;
+      this.doMobileStyling(notice, options);
+    },
+    doMobileStyling: function(notice, options){
+      if (options.styling) {
+        notice.elem.addClass("ui-pnotify-mobile-able");
+
+        if ($(window).width() <= 480) {
+          if (!notice.options.stack.mobileOrigSpacing1) {
+            notice.options.stack.mobileOrigSpacing1 = notice.options.stack.spacing1;
+            notice.options.stack.mobileOrigSpacing2 = notice.options.stack.spacing2;
+          }
+          notice.options.stack.spacing1 = 0;
+          notice.options.stack.spacing2 = 0;
+        } else if (notice.options.stack.mobileOrigSpacing1 || notice.options.stack.mobileOrigSpacing2) {
+          notice.options.stack.spacing1 = notice.options.stack.mobileOrigSpacing1;
+          delete notice.options.stack.mobileOrigSpacing1;
+          notice.options.stack.spacing2 = notice.options.stack.mobileOrigSpacing2;
+          delete notice.options.stack.mobileOrigSpacing2;
+        }
+      } else {
+        notice.elem.removeClass("ui-pnotify-mobile-able");
+
+        if (notice.options.stack.mobileOrigSpacing1) {
+          notice.options.stack.spacing1 = notice.options.stack.mobileOrigSpacing1;
+          delete notice.options.stack.mobileOrigSpacing1;
+        }
+        if (notice.options.stack.mobileOrigSpacing2) {
+          notice.options.stack.spacing2 = notice.options.stack.mobileOrigSpacing2;
+          delete notice.options.stack.mobileOrigSpacing2;
+        }
+      }
+    }
+  };
+  return PNotify;
+}));

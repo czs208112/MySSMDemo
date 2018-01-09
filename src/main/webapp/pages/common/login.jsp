@@ -62,29 +62,32 @@
                     if (data.success == false) {
                         if (data.resultType == 1000) {
                             chgValidateCode();
-                            $('.code-input').poshytip({
-                                content: data.resultMessage,
-                                className: 'tip-yellowsimple',
-                                bgImageFrameSize: 1,
-                                showOn: 'none',
-                                alignTo: 'target',
-                                alignX: 'right',
-                                alignY: 'bottom',
-                            });
-                            $('.code-input').poshytip('show');
-                            $('.code-input').poshytip('hideDelayed', 1000);
+
+                            ////poshytip，提示错误信息
+                            // $('.code-input').poshytip({
+                            //     content: data.resultMessage,
+                            //     className: 'tip-yellowsimple',
+                            //     bgImageFrameSize: 2,
+                            //     showOn: 'none',
+                            //     alignTo: 'target',
+                            //     alignX: 'center',
+                            //     alignY: 'top',
+                            //     offsetX: 22,
+                            //     offsetY: 5,
+                            // });
+                            // $('.code-input').poshytip('show');
+                            // $('.code-input').poshytip('hideDelayed', 1000);
+
+                            sendNotify(data.resultMessage);
 
                         } else if (data.resultType == 1010) {
-                            sendNotify(data.resultMessage)
-                            // layer.tips(data.resultMessage, '#submit', {
-                            //     tips: [2, '#ff9a0a']
-                            // });
+                            sendNotify(data.resultMessage);
                         }
                         return false;
                     }
                 }
             });
-            return false;        //此句解释了为什么ajaxSubmit会自动提交表单，想要阻止自动提交，必须return false；
+            return false;  //此句解释了为什么ajaxSubmit会自动提交表单，想要阻止自动提交，必须return false；
         })
 
         //点击换一张
@@ -94,19 +97,24 @@
 
         //pnotify提示信息
         function sendNotify(message) {
-            // var stack_topleft = {"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
-            var stack_topleft = {"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
+            // Example Stacks
+            // var stack_topleft = {"dir1": "down", "dir2": "right", "push": "top"};
+            // var stack_bottomleft = {"dir1": "right", "dir2": "up", "push": "top"};
+            // var stack_modal = {"dir1": "down", "dir2": "right", "push": "top", "modal": true, "overlay_close": true};
+            // var stack_bar_top = {"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
+            // var stack_bar_bottom = {"dir1": "up", "dir2": "right", "spacing1": 0, "spacing2": 0};
+            // var stack_context = {"dir1": "down", "dir2": "left", "context": $("#stack-context")};
+
+            var stack_modal = {"dir1": "down", "dir2": "right", "push": "top"};
             new PNotify({
                 // title: message,
                 styling: "bootstrap3", //"brighttheme", "bootstrap3", "fontawesome"
-                width: "250px",
-                min_height: "5px",
                 shadow: true,
-                height: "300px",
                 text: message,
                 type: 'notice', //"notice", "info", "success", or "error".
-                delay: 2000,
-                stack: stack_topleft
+                delay: 3000,
+                addclass: "stack-modal",//stack-topleft,stack-bottomleft,stack-bottomright,stack-modal
+                stack: stack_modal
             });
         }
     })

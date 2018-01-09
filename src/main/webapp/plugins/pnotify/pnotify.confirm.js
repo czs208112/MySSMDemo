@@ -1,3 +1,146 @@
 // Confirm
-!function(t,n){"function"==typeof define&&define.amd?define("pnotify.confirm",["jquery","pnotify"],n):"object"==typeof exports&&"undefined"!=typeof module?module.exports=n(require("jquery"),require("./pnotify")):n(t.jQuery,t.PNotify)}("undefined"!=typeof window?window:this,function(t,n){return n.prototype.options.confirm={confirm:!1,prompt:!1,prompt_class:"",prompt_default:"",prompt_multi_line:!1,align:"right",buttons:[{text:"Ok",addClass:"",promptTrigger:!0,click:function(t,n){t.remove(),t.get().trigger("pnotify.confirm",[t,n])}},{text:"Cancel",addClass:"",click:function(t){t.remove(),t.get().trigger("pnotify.cancel",t)}}]},n.prototype.modules.confirm={init:function(n,o){this.container=t('<div class="ui-pnotify-action-bar" style="margin-top:5px;clear:both;" />').css("text-align",o.align).appendTo(n.container),o.confirm||o.prompt?this.makeDialog(n,o):this.container.hide()},update:function(t,n){n.confirm?(this.makeDialog(t,n),this.container.show()):this.container.hide().empty()},afterOpen:function(t,n){n.prompt&&this.prompt.focus()},makeDialog:function(o,e){var i,s,r=!1,p=this;this.container.empty(),e.prompt&&(this.prompt=t("<"+(e.prompt_multi_line?'textarea rows="5"':'input type="text"')+' style="margin-bottom:5px;clear:both;" />').addClass((void 0===o.styles.input?"":o.styles.input)+" "+(void 0===e.prompt_class?"":e.prompt_class)).val(e.prompt_default).appendTo(this.container));for(var u=e.buttons[0]&&e.buttons[0]!==n.prototype.options.confirm.buttons[0],c=0;c<e.buttons.length;c++)null===e.buttons[c]||u&&n.prototype.options.confirm.buttons[c]&&n.prototype.options.confirm.buttons[c]===e.buttons[c]||(i=e.buttons[c],r?this.container.append(" "):r=!0,s=t('<button type="button" class="ui-pnotify-action-button" />').addClass((void 0===o.styles.btn?"":o.styles.btn)+" "+(void 0===i.addClass?"":i.addClass)).text(i.text).appendTo(this.container).on("click",function(t){return function(){"function"==typeof t.click&&t.click(o,e.prompt?p.prompt.val():null)}}(i)),e.prompt&&!e.prompt_multi_line&&i.promptTrigger&&this.prompt.keypress(function(t){return function(n){13==n.keyCode&&t.click()}}(s)),o.styles.text&&s.wrapInner('<span class="'+o.styles.text+'"></span>'),o.styles.btnhover&&s.hover(function(t){return function(){t.addClass(o.styles.btnhover)}}(s),function(t){return function(){t.removeClass(o.styles.btnhover)}}(s)),o.styles.btnactive&&s.on("mousedown",function(t){return function(){t.addClass(o.styles.btnactive)}}(s)).on("mouseup",function(t){return function(){t.removeClass(o.styles.btnactive)}}(s)),o.styles.btnfocus&&s.on("focus",function(t){return function(){t.addClass(o.styles.btnfocus)}}(s)).on("blur",function(t){return function(){t.removeClass(o.styles.btnfocus)}}(s)))}},t.extend(n.styling.bootstrap3,{btn:"btn btn-default",input:"form-control"}),t.extend(n.styling.fontawesome,{btn:"btn btn-default",input:"form-control"}),n});
-//# sourceMappingURL=pnotify.confirm.js.map
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as a module.
+    define('pnotify.confirm', ['jquery', 'pnotify'], factory);
+  } else if (typeof exports === 'object' && typeof module !== 'undefined') {
+    // CommonJS
+    module.exports = factory(require('jquery'), require('./pnotify'));
+  } else {
+    // Browser globals
+    factory(root.jQuery, root.PNotify);
+  }
+}(typeof window !== "undefined" ? window : this, function($, PNotify){
+  PNotify.prototype.options.confirm = {
+    // Make a confirmation box.
+    confirm: false,
+    // Make a prompt.
+    prompt: false,
+    // Classes to add to the input element of the prompt.
+    prompt_class: "",
+    // The default value of the prompt.
+    prompt_default: "",
+    // Whether the prompt should accept multiple lines of text.
+    prompt_multi_line: false,
+    // Where to align the buttons. (right, center, left, justify)
+    align: "right",
+    // The buttons to display, and their callbacks.
+    buttons: [
+      {
+        text: "Ok",
+        addClass: "",
+        // Whether to trigger this button when the user hits enter in a single line prompt.
+        promptTrigger: true,
+        click: function(notice, value){
+          notice.remove();
+          notice.get().trigger("pnotify.confirm", [notice, value]);
+        }
+      },
+      {
+        text: "Cancel",
+        addClass: "",
+        click: function(notice){
+          notice.remove();
+          notice.get().trigger("pnotify.cancel", notice);
+        }
+      }
+    ]
+  };
+  PNotify.prototype.modules.confirm = {
+    init: function(notice, options){
+      // The div that contains the buttons.
+      this.container = $('<div class="ui-pnotify-action-bar" style="margin-top:5px;clear:both;" />').css('text-align', options.align).appendTo(notice.container);
+
+      if (options.confirm || options.prompt)
+        this.makeDialog(notice, options);
+      else
+        this.container.hide();
+    },
+
+    update: function(notice, options){
+      if (options.confirm) {
+        this.makeDialog(notice, options);
+        this.container.show();
+      } else {
+        this.container.hide().empty();
+      }
+    },
+
+    afterOpen: function(notice, options){
+      if (options.prompt) {
+        this.prompt.focus();
+      }
+    },
+
+    makeDialog: function(notice, options) {
+      var already = false, that = this, btn, elem;
+      this.container.empty();
+      if (options.prompt) {
+        // The input element of a prompt.
+        this.prompt = $('<'+(options.prompt_multi_line ? 'textarea rows="5"' : 'input type="text"')+' style="margin-bottom:5px;clear:both;" />')
+        .addClass((typeof notice.styles.input === "undefined" ? "" : notice.styles.input)+" "+(typeof options.prompt_class === "undefined" ? "" : options.prompt_class))
+        .val(options.prompt_default)
+        .appendTo(this.container);
+      }
+      var customButtons = (options.buttons[0] && options.buttons[0] !== PNotify.prototype.options.confirm.buttons[0]);
+      for (var i = 0; i < options.buttons.length; i++) {
+        if (options.buttons[i] === null || (customButtons && PNotify.prototype.options.confirm.buttons[i] && PNotify.prototype.options.confirm.buttons[i] === options.buttons[i])) {
+          continue;
+        }
+        btn = options.buttons[i];
+        if (already) {
+          this.container.append(' ');
+        } else {
+          already = true;
+        }
+        elem = $('<button type="button" class="ui-pnotify-action-button" />')
+        .addClass((typeof notice.styles.btn === "undefined" ? "" : notice.styles.btn)+" "+(typeof btn.addClass === "undefined" ? "" : btn.addClass))
+        .text(btn.text)
+        .appendTo(this.container)
+        .on("click", (function(btn){ return function(){
+          if (typeof btn.click == "function") {
+            btn.click(notice, options.prompt ? that.prompt.val() : null);
+          }
+        }})(btn));
+        if (options.prompt && !options.prompt_multi_line && btn.promptTrigger)
+          this.prompt.keypress((function(elem){ return function(e){
+            if (e.keyCode == 13)
+              elem.click();
+          }})(elem));
+        if (notice.styles.text) {
+          elem.wrapInner('<span class="'+notice.styles.text+'"></span>');
+        }
+        if (notice.styles.btnhover) {
+          elem.hover((function(elem){ return function(){
+            elem.addClass(notice.styles.btnhover);
+          }})(elem), (function(elem){ return function(){
+            elem.removeClass(notice.styles.btnhover);
+          }})(elem));
+        }
+        if (notice.styles.btnactive) {
+          elem.on("mousedown", (function(elem){ return function(){
+            elem.addClass(notice.styles.btnactive);
+          }})(elem)).on("mouseup", (function(elem){ return function(){
+            elem.removeClass(notice.styles.btnactive);
+          }})(elem));
+        }
+        if (notice.styles.btnfocus) {
+          elem.on("focus", (function(elem){ return function(){
+            elem.addClass(notice.styles.btnfocus);
+          }})(elem)).on("blur", (function(elem){ return function(){
+            elem.removeClass(notice.styles.btnfocus);
+          }})(elem));
+        }
+      }
+    }
+  };
+  $.extend(PNotify.styling.bootstrap3, {
+    btn: "btn btn-default",
+    input: "form-control"
+  });
+  $.extend(PNotify.styling.fontawesome, {
+    btn: "btn btn-default",
+    input: "form-control"
+  });
+  return PNotify;
+}));

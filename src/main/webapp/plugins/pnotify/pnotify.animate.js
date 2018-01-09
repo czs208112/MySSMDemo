@@ -1,3 +1,110 @@
 // Animate
-!function(n,i){"function"==typeof define&&define.amd?define("pnotify.animate",["jquery","pnotify"],i):"object"==typeof exports&&"undefined"!=typeof module?module.exports=i(require("jquery"),require("./pnotify")):i(n.jQuery,n.PNotify)}("undefined"!=typeof window?window:this,function(n,i){return i.prototype.options.animate={animate:!1,in_class:"",out_class:""},i.prototype.modules.animate={init:function(n,i){this.setUpAnimations(n,i),n.attention=function(i,t){n.elem.one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",function(){n.elem.removeClass(i),t&&t.call(n)}).addClass("animated "+i)}},update:function(n,i,t){i.animate!=t.animate&&this.setUpAnimations(n,i)},setUpAnimations:function(n,i){if(i.animate){n.options.animation="none",n.elem.removeClass("ui-pnotify-fade-slow ui-pnotify-fade-normal ui-pnotify-fade-fast"),n._animateIn||(n._animateIn=n.animateIn),n._animateOut||(n._animateOut=n.animateOut),n.animateIn=this.animateIn.bind(this),n.animateOut=this.animateOut.bind(this);var t=400;"slow"===n.options.animate_speed?t=600:"fast"===n.options.animate_speed?t=200:n.options.animate_speed>0&&(t=n.options.animate_speed),t/=1e3,n.elem.addClass("animated").css({"-webkit-animation-duration":t+"s","-moz-animation-duration":t+"s","animation-duration":t+"s"})}else n._animateIn&&n._animateOut&&(n.animateIn=n._animateIn,delete n._animateIn,n.animateOut=n._animateOut,delete n._animateOut,n.elem.addClass("animated"))},animateIn:function(n){this.notice.animating="in";var i=this;n=function(){i.notice.elem.removeClass(i.options.in_class),this&&this.call(),i.notice.animating=!1}.bind(n),this.notice.elem.show().one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",n).removeClass(this.options.out_class).addClass("ui-pnotify-in").addClass(this.options.in_class)},animateOut:function(n){this.notice.animating="out";var i=this;n=function(){i.notice.elem.removeClass("ui-pnotify-in "+i.options.out_class),this&&this.call(),i.notice.animating=!1}.bind(n),this.notice.elem.one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",n).removeClass(this.options.in_class).addClass(this.options.out_class)}},i});
-//# sourceMappingURL=pnotify.animate.js.map
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as a module.
+    define('pnotify.animate', ['jquery', 'pnotify'], factory);
+  } else if (typeof exports === 'object' && typeof module !== 'undefined') {
+    // CommonJS
+    module.exports = factory(require('jquery'), require('./pnotify'));
+  } else {
+    // Browser globals
+    factory(root.jQuery, root.PNotify);
+  }
+}(typeof window !== "undefined" ? window : this, function($, PNotify){
+  PNotify.prototype.options.animate = {
+    // Use animate.css to animate the notice.
+    animate: false,
+    // The class to use to animate the notice in.
+    in_class: "",
+    // The class to use to animate the notice out.
+    out_class: ""
+  };
+  PNotify.prototype.modules.animate = {
+    init: function(notice, options){
+      this.setUpAnimations(notice, options);
+
+      notice.attention = function(aniClass, callback){
+        notice.elem.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+          notice.elem.removeClass(aniClass);
+          if (callback) {
+            callback.call(notice);
+          }
+        }).addClass("animated "+aniClass);
+      };
+    },
+
+    update: function(notice, options, oldOpts){
+      if (options.animate != oldOpts.animate) {
+        this.setUpAnimations(notice, options)
+      }
+    },
+
+    setUpAnimations: function(notice, options){
+      if (options.animate) {
+        notice.options.animation = "none";
+        notice.elem.removeClass("ui-pnotify-fade-slow ui-pnotify-fade-normal ui-pnotify-fade-fast");
+        if (!notice._animateIn) {
+          notice._animateIn = notice.animateIn;
+        }
+        if (!notice._animateOut) {
+          notice._animateOut = notice.animateOut;
+        }
+        notice.animateIn = this.animateIn.bind(this);
+        notice.animateOut = this.animateOut.bind(this);
+        var animSpeed = 400;
+        if (notice.options.animate_speed === "slow") {
+          animSpeed = 600;
+        } else if (notice.options.animate_speed === "fast") {
+          animSpeed = 200;
+        } else if (notice.options.animate_speed > 0) {
+          animSpeed = notice.options.animate_speed;
+        }
+        animSpeed = animSpeed / 1000;
+        notice.elem.addClass("animated").css({
+          "-webkit-animation-duration": animSpeed+"s",
+          "-moz-animation-duration": animSpeed+"s",
+          "animation-duration": animSpeed+"s"
+        });
+      } else if (notice._animateIn && notice._animateOut) {
+        notice.animateIn = notice._animateIn;
+        delete notice._animateIn;
+        notice.animateOut = notice._animateOut;
+        delete notice._animateOut;
+        notice.elem.addClass("animated");
+      }
+    },
+
+    animateIn: function(callback){
+      // Declare that the notice is animating in.
+      this.notice.animating = "in";
+      var that = this;
+      callback = (function(){
+        that.notice.elem.removeClass(that.options.in_class);
+        if (this) {
+          this.call();
+        }
+        // Declare that the notice has completed animating.
+        that.notice.animating = false;
+      }).bind(callback);
+
+      this.notice.elem.show().one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', callback).removeClass(this.options.out_class).addClass("ui-pnotify-in").addClass(this.options.in_class);
+    },
+
+    animateOut: function(callback){
+      // Declare that the notice is animating out.
+      this.notice.animating = "out";
+      var that = this;
+      callback = (function(){
+        that.notice.elem.removeClass("ui-pnotify-in " + that.options.out_class);
+        if (this) {
+          this.call();
+        }
+        // Declare that the notice has completed animating.
+        that.notice.animating = false;
+      }).bind(callback);
+
+      this.notice.elem.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', callback).removeClass(this.options.in_class).addClass(this.options.out_class);
+    }
+  };
+  return PNotify;
+}));
