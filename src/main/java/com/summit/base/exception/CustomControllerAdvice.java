@@ -31,13 +31,14 @@ public class CustomControllerAdvice {
     @ExceptionHandler(CustomException.class)
 //    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
-    public CommonResult handleCustomException(Exception e) {
+    public CommonResult handleCustomException(CustomException e) {
         System.out.println("===========应用到所有@RequestMapping注解的方法，在其抛出CustomException异常时执行");
         CommonResult result = new CommonResult();
         System.out.println(e.getMessage());
         e.printStackTrace();
         result.setSuccess(false);
-        result.setErrorText(e.getMessage());
+        result.setResultType(e.getExceptionCode() + "");
+        result.setResultMessage(e.getMessage());
         return result;
     }
 
