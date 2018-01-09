@@ -4,40 +4,36 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class CommonResult {
-    private boolean mysuccess = false;
 
+    //成功标志
     private boolean success = true;
 
-    private String errorText;
+    //返回的本文内容
+    private String resultMessage;
 
-    private String successText;
+    //成功或失败类型
+    private String resultType;
 
+    //返回结果包含的json数组信息
     private JSONArray jarray;
 
+    //返回结果包含的json对象信息
     private JSONObject jobject;
 
-    public String getSuccessText() {
-        return successText;
+    public String getResultMessage() {
+        return resultMessage;
     }
 
-    public void setSuccessText(String successText) {
-        this.successText = successText;
+    public void setResultMessage(String resultMessage) {
+        this.resultMessage = resultMessage;
     }
 
-    public boolean isMysuccess() {
-        return mysuccess;
+    public String getResultType() {
+        return resultType;
     }
 
-    public void setMysuccess(boolean mysuccess) {
-        this.mysuccess = mysuccess;
-    }
-
-    public String getErrorText() {
-        return errorText;
-    }
-
-    public void setErrorText(String errorText) {
-        this.errorText = errorText;
+    public void setResultType(String resultType) {
+        this.resultType = resultType;
     }
 
     public boolean isSuccess() {
@@ -55,6 +51,7 @@ public class CommonResult {
     public void setJarray(JSONArray jarray) {
         this.jarray = jarray;
     }
+
     public JSONObject getJobject() {
         return jobject;
     }
