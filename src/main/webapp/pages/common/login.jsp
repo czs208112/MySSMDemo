@@ -18,11 +18,11 @@
         <form method="post" class="form-horizontal col-md-8 col-md-offset-2" id="yourformid">
             <div class="form-group">
                 <i class="fa fa-user fa-lg col-md-1"></i>
-                <input class="form-control col-md-10" type="text" placeholder="账号" name="name" value="lxx">
+                <input class="form-focus form-control col-md-10" type="text" placeholder="账号" name="name" value="lxx">
             </div>
             <div class="form-group">
                 <i class="fa fa-lock fa-lg col-md-1"></i>
-                <input class="form-control col-md-10" type="password" placeholder="密码" name="password" value="Mouse">
+                <input class="form-focus form-control col-md-10" type="password" placeholder="密码" name="password" value="Mouse">
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label" style="padding-bottom: 15px;">
@@ -55,6 +55,12 @@
     $().ready(function () {
         <!--jquery.form提交表单,错误提示信息使用layer或者pnotify-->
         $("#yourformid").submit(function () {
+            var validatecode = $(".code-input").val();
+            if (validatecode == '') {
+                sendNotify("请输入验证码!");
+                return false;
+            }
+
             $(this).ajaxSubmit({
                 type: 'post', // 提交方式 get/post
                 url: "${pageContext.request.contextPath}/userlogin/login.do", // 需要提交的 url
@@ -117,6 +123,14 @@
                 stack: stack_modal
             });
         }
+
+        $(".form-focus").on('focus', function () {
+            $(this).prev().css("color", "#424242");
+        });
+
+        $(".form-focus").on('blur', function () {
+            $(this).prev().css("color", "#ccc");
+        });
     })
 </script>
 </body>
