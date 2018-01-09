@@ -15,7 +15,7 @@
 <div class="container">
     <div class="form row">
         <!--action="<%=request.getContextPath()%>/userlogin/login.do"-->
-        <form method="post" class="form-horizontal col-md-8  col-md-offset-2" id="yourformid">
+        <form method="post" class="form-horizontal col-md-8 col-md-offset-2" id="yourformid">
             <div class="form-group">
                 <i class="fa fa-user fa-lg col-md-1"></i>
                 <input class="form-control col-md-10" type="text" placeholder="账号" name="name" value="lxx">
@@ -31,11 +31,11 @@
                 <input class="col-md-3 code-input" name="validateCode" placeholder="输入验证码">
                 <img class="col-md-3 change-code"
                      src="${pageContext.request.contextPath}/vcode/getJPGCode.do" title="点击更换验证码">
-                <a class="change-code" href="javascript:void(0)">换一张</a>
+                <span class="change-code" title="换一张">换一张</span>
             </div>
             <div class="form-group btn-control">
                 <input class="form-control col-md-3 btn btn-primary" type="submit" id='submit' value="登陆">
-                <%--<input class="col-md-offset-1 col-md-3 btn btn-default" type="reset" value="重置"></div>--%>
+            </div>
         </form>
     </div>
 </div>
@@ -44,8 +44,6 @@
 <script src="${pageContext.request.contextPath}/plugins/layer/layer.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/plugins/jquery-form/jquery.form.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/plugins/pnotify/pnotify.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/plugins/pnotify/pnotify.animate.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/plugins/pnotify/pnotify.history.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
@@ -68,10 +66,10 @@
                                 tips: [4, '#ff9a0a']
                             });
                         } else if (data.resultType == 1010) {
-                            // sendNotify(data.resultMessage)
-                            layer.tips(data.resultMessage, '#submit', {
-                                tips: [2, '#ff9a0a']
-                            });
+                            sendNotify(data.resultMessage)
+                            // layer.tips(data.resultMessage, '#submit', {
+                            //     tips: [2, '#ff9a0a']
+                            // });
                         }
                         return false;
                     }
@@ -87,16 +85,17 @@
 
         //pnotify提示信息
         function sendNotify(message) {
+            // var stack_topleft = {"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
             var stack_topleft = {"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
             new PNotify({
                 // title: message,
                 styling: "bootstrap3", //"brighttheme", "bootstrap3", "fontawesome"
-                width: "350px",
+                width: "250px",
                 min_height: "5px",
                 shadow: true,
                 height: "300px",
                 text: message,
-                type: 'info', //"notice", "info", "success", or "error".
+                type: 'notice', //"notice", "info", "success", or "error".
                 delay: 2000,
                 stack: stack_topleft
             });
