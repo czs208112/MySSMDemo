@@ -49,13 +49,13 @@ public class Login {
         if (exceptionClassName != null) {
             if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
                 //最终会抛给异常处理器
-                throw new CustomException("账号不存在");
+                throw new CustomException("账号不存在", Constants.ERROR_CODE_ACCOUNT_NOT_EXIST);
             } else if (IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
-                throw new CustomException("用户名/密码错误");
+                throw new CustomException("用户名/密码错误", Constants.ERROR_CODE_ACCOUNT_OR_PASSWORD_ERROR);
             } else if (Constants.FAILURE_VALUE_ATTRIBUTE.equals(exceptionClassName)) {
-                throw new CustomException("验证码错误 ");
+                throw new CustomException("验证码错误", Constants.ERROR_CODE_VALIDATECODE_ERROR);
             } else {
-                throw new CustomException("未知错误");//最终在异常处理器生成未知错误
+                throw new CustomException("未知错误", Constants.ERROR_CODE_UNKNOWN);//最终在异常处理器生成未知错误
             }
         }
 

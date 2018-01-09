@@ -8,12 +8,14 @@
     <link href="../../plugins/jqGrid/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet">
     <link href="../../plugins/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="../../customer/css/login.css" rel="stylesheet">
+    <link href="../../plugins/layer/theme/default/layer.css" rel="stylesheet">
+    <link href="../../plugins/pnotify/pnotify.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
     <div class="form row">
         <!--action="<%=request.getContextPath()%>/userlogin/login.do"-->
-        <form class="form-horizontal col-md-8  col-md-offset-2" id="yourformid">
+        <form method="post" class="form-horizontal col-md-8  col-md-offset-2" id="yourformid">
             <div class="form-group">
                 <i class="fa fa-user fa-lg col-md-1"></i>
                 <input class="form-control col-md-10" type="text" placeholder="账号" name="name" value="lxx">
@@ -31,18 +33,20 @@
                      src="${pageContext.request.contextPath}/vcode/getJPGCode.do" title="点击更换验证码">
                 <a class="change-code" href="javascript:void(0)">换一张</a>
             </div>
-            <span class="col-md-offset-1" style="color:#ff1800;padding-left: 5px;margin-top: -20px;"
-                  id="errorMsg" hidden>1111</span>
-            <div class="form-group btn-control" style="padding-left:20%;">
-                <input class="col-md-offset-1 col-md-3 btn btn-primary" type="submit" id='submit' value="登陆">
-                <input class="col-md-offset-1 col-md-3 btn btn-default" type="reset" value="重置"></div>
+            <div class="form-group btn-control">
+                <input class="form-control col-md-3 btn btn-primary" type="submit" id='submit' value="登陆">
+                <%--<input class="col-md-offset-1 col-md-3 btn btn-default" type="reset" value="重置"></div>--%>
         </form>
     </div>
 </div>
 <script src="${pageContext.request.contextPath}/plugins/jquery-1.11.3.min.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/bootstrap/js/bootstrap.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/plugins/jquery-validation/jquery.validate.min.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/plugins/jquery-validation/messages_zh.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/plugins/layer/layer.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/plugins/jquery-form/jquery.form.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/plugins/pnotify/pnotify.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/plugins/pnotify/pnotify.animate.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/plugins/pnotify/pnotify.history.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 
     function chgValidateCode() {
@@ -51,75 +55,52 @@
     }
 
     $().ready(function () {
-        $("#yourformid").validate({
-            rules: {
-                name: {
-                    required: true,
-                    minlength: 5
-                },
-                password: {
-                    required: true,
-                    minlength: 6
-                },
-                validateCode: {
-                    required: true,
-                    remote: {
-                        type: "POST",
-                        dataType: "json",
-                        url: "${pageContext.request.contextPath}/userlogin/checkValidateCode.do", //请求地址
-                        data: {
-                            validateCode: function () {
-                                return $("input[name=validateCode]").val();
-                            }
-                        },
-                        dataFilter: function (data, type) {
-                            var resultJsonData = JSON.parse(data)
-                            return resultJsonData.success;
-                        }
-                    }
-                }
-            },
-            messages: {
-                name: {
-                    required: "请输入用户名",
-                    minlength: "用户名必至少5位"
-                },
-                password: {
-                    required: "请输入密码",
-                    minlength: "密码长度不能小于 5 个字母"
-                },
-                validateCode: {
-                    required: "请输入验证码",
-                    remote: "验证码错误"
-                }
-            }, submitHandler: function (form) {
-                $.ajax({
-                    cache: true,
-                    type: "POST",
-                    url: "${pageContext.request.contextPath}/userlogin/login.do",
-                    data: $('#yourformid').serialize(),// 你的formid
-                    async: false,
-                    error: function (request) {
-                        $("#errorMsg").html('连接异常')
-                    },
-                    success: function (data) {
-                        if (data.success == false) {
-                            // $("#errorMsg").html(data.errorMsgrorText)
+        <!--jquery.form提交表单,错误提示信息使用layer或者pnotify-->
+        $("#yourformid").submit(function () {
+            $(this).ajaxSubmit({
+                type: 'post', // 提交方式 get/post
+                url: "${pageContext.request.contextPath}/userlogin/login.do", // 需要提交的 url
+                success: function (data) { // data 保存提交后返回的数据，一般为 json 数据
+                    if (data.success == false) {
+                        if (data.resultType == 1000) {
                             chgValidateCode();
-                            return false;
+                            layer.tips(data.resultMessage, '.code-input', {
+                                tips: [4, '#ff9a0a']
+                            });
+                        } else if (data.resultType == 1010) {
+                            // sendNotify(data.resultMessage)
+                            layer.tips(data.resultMessage, '#submit', {
+                                tips: [2, '#ff9a0a']
+                            });
                         }
-                        console.log(data)
-                        // $("#commonLayout_appcreshi").parent().html(data);
+                        return false;
                     }
-                })
-
-            }
+                }
+            });
+            return false;        //此句解释了为什么ajaxSubmit会自动提交表单，想要阻止自动提交，必须return false；
         })
 
+        //点击换一张
         $(".change-code").on("click", function () {
             chgValidateCode();
         })
 
+        //pnotify提示信息
+        function sendNotify(message) {
+            var stack_topleft = {"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
+            new PNotify({
+                // title: message,
+                styling: "bootstrap3", //"brighttheme", "bootstrap3", "fontawesome"
+                width: "350px",
+                min_height: "5px",
+                shadow: true,
+                height: "300px",
+                text: message,
+                type: 'info', //"notice", "info", "success", or "error".
+                delay: 2000,
+                stack: stack_topleft
+            });
+        }
     })
 </script>
 </body>
