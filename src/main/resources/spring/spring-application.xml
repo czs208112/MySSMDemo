@@ -5,7 +5,13 @@
        xmlns:cache="http://www.springframework.org/schema/cache"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/websocket
+	http://www.springframework.org/schema/websocket/spring-websocket.xsd
+	http://www.springframework.org/schema/cache
+	http://www.springframework.org/schema/cache/spring-cache.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 扫描以下包,但不扫描@Controller,@Controller交给springMVC容器扫描,原因https://www.cnblogs.com/hafiz/p/5875740.html -->
     <context:component-scan base-package="com.summit">
@@ -44,23 +50,24 @@
         <property name="name" value="张三"/>
     </bean>
 
-    <!--&lt;!&ndash;原生websocket实现&ndash;&gt;
+    <bean id="demoWSHandler" class="com.summit.common.websocket.DemoWSHandler"/>
+
+    <!--原生websocket实现-->
     <websocket:handlers>
         <websocket:mapping path="/ws.do" handler="demoWSHandler"/>
         <websocket:handshake-interceptors>
             <bean class="com.summit.common.websocket.HandshakeInterceptor"/>
         </websocket:handshake-interceptors>
-    </websocket:handlers>-->
+    </websocket:handlers>
 
     <!--sockjs实现websocket-->
-    <!--  <websocket:handlers>
-          <websocket:mapping path="/ws.do" handler="demoWSHandler"/>
-          <websocket:handshake-interceptors>
-              <bean class="com.summit.common.websocket.HandshakeInterceptor"/>
-          </websocket:handshake-interceptors>
-          <websocket:sockjs/>
-      </websocket:handlers>
-      <bean id="demoWSHandler" class="com.summit.common.websocket.DemoWSHandler"/>-->
+    <websocket:handlers>
+        <websocket:mapping path="/ws.do" handler="demoWSHandler"/>
+        <websocket:handshake-interceptors>
+            <bean class="com.summit.common.websocket.HandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+        <websocket:sockjs/>
+    </websocket:handlers>
 
     <!--encache相关配置start-->
     <cache:annotation-driven cache-manager="cacheManager"/>

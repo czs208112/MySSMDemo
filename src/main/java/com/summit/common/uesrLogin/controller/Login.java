@@ -40,7 +40,6 @@ public class Login {
 //        return result;
 //    }
     @RequestMapping("login")
-    @ResponseBody
     public String login(HttpServletRequest request) throws Exception {
 
         //如果登陆失败从request中获取认证异常信息，shiroLoginFailure就是shiro异常类的全限定名
@@ -61,7 +60,7 @@ public class Login {
 
         // List<User> userList = userManagerService.getUserList();
 
-        String name = request.getParameter("name");
+        String name = request.getParameter("username");
         String password = request.getParameter("password");
         password = "1f82c942befda29b6ed487a51da199f78fce7f05";
         UsernamePasswordToken token = new UsernamePasswordToken(name, password);
@@ -70,19 +69,19 @@ public class Login {
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
-        } catch (UnknownAccountException e1) {
-            e1.printStackTrace();
+        } catch (Exception e) {
+            if (e instanceof UnknownAccountException) {
+                throw new CustomException("账号不存在", Constants.ERROR_CODE_ACCOUNT_NOT_EXIST);
 //            return "redirect:/pages/common/error.jsp";//重定向到错误页
 //            return "/common/wsdemo";
-            return "/common/sockjsdemo";
-        } catch (AuthenticationException e2) {
-            e2.printStackTrace();
-            return "common/error";
-        } catch (Exception e3) {
-            e3.printStackTrace();
-            return "common/error";
+//            return "/common/sockjsdemo";
+            } else if (e instanceof AuthenticationException) {
+                throw new CustomException("密码错误", Constants.ERROR_CODE_ACCOUNT_NOT_EXIST);
+            } else {
+                throw e;
+            }
         }
-        return "common/success";
+        return "redirect:/pages/common/error.jsp";
     }
 
     @RequestMapping("checkValidateCode")

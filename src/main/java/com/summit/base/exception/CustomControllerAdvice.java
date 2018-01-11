@@ -51,7 +51,7 @@ public class CustomControllerAdvice {
     @ExceptionHandler(Exception.class)
 //    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String handleException2(Exception e) {
-        System.out.println("===========应用到所有@RequestMapping注解的方法，在其抛出UnauthenticatedException异常时执行");
+        System.out.println("===========应用到所有@RequestMapping注解的方法，在其抛出异常时执行");
         return "common/error";
     }
 }

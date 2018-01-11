@@ -1,4 +1,8 @@
-<%@page contentType="text/html;charset=UTF-8"%>
+<%@page contentType="text/html;charset=UTF-8" %>
+<%
+    String path = request.getContextPath();
+    String basePath = "ws://" + request.getServerName() + ":" + request.getServerPort() + path;  //!注意协议是ws://
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,9 +16,8 @@
         }
 
         function send_echo() {
-            var wsUri = "ws://localhost:8080/ws.do";
-            writeToScreen("Connecting to " + wsUri);
-            echo_websocket = new WebSocket(wsUri);
+            // "ws://localhost:8080/MySSMDemo/ws.do"
+            echo_websocket = new WebSocket("<%=basePath%>/ws.do");
             echo_websocket.onopen = function (evt) {
                 writeToScreen("Connected !");
                 doSend(textID.value);

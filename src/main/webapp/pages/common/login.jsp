@@ -3,13 +3,13 @@
 <html>
 <head>
     <title>登录页</title>
-    <link href="../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="../../plugins/jqGrid/css/ui.jqgrid-bootstrap.css" rel="stylesheet">
-    <link href="../../plugins/jqGrid/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet">
-    <link href="../../plugins/poshytip/tip-yellowsimple/tip-yellowsimple.css" rel="stylesheet">
-    <link href="../../plugins/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="../../customer/css/login.css" rel="stylesheet">
-    <link href="../../plugins/pnotify/pnotify.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/plugins/jqGrid/css/ui.jqgrid-bootstrap.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/plugins/jqGrid/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/plugins/poshytip/tip-yellowsimple/tip-yellowsimple.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/plugins/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/customer/css/login.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/plugins/pnotify/pnotify.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -18,7 +18,7 @@
         <form method="post" class="form-horizontal col-md-8 col-md-offset-2" id="yourformid">
             <div class="form-group">
                 <i class="fa fa-user fa-lg col-md-1"></i>
-                <input class="form-focus form-control col-md-10" type="text" placeholder="账号" name="name" value="lxx">
+                <input class="form-focus form-control col-md-10" type="text" placeholder="账号" name="username" value="lxx">
             </div>
             <div class="form-group">
                 <i class="fa fa-lock fa-lg col-md-1"></i>
@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label" style="padding-bottom: 15px;">
-                    <input type="checkbox" checked="checked" id="rememberMe" style=" margin-left: -15px;">记住我
+                    <input type="checkbox" checked="checked" name="rememberMe" style=" margin-left: -15px;">记住我
                 </label>
                 <input class="col-md-3 code-input" name="validateCode" placeholder="输入验证码">
                 <img class="col-md-3 change-code"

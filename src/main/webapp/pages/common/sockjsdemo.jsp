@@ -6,6 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +24,8 @@
         }
 
         function send_echo() {
-            echo_websocket = new SockJS("http://localhost:8080/sockjs/ws.do");   //初始化 websocket
+            //"http://localhost:8080/MySSMDemo/sockjs/ws.do"
+            echo_websocket = new SockJS("<%=basePath%>/sockjs/ws.do");   //初始化 websocket
 
             echo_websocket.onopen = function () {
                 doSend(textID.value);

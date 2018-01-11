@@ -10,8 +10,8 @@
 
     <properties>
         <!-- spring版本号 -->
-        <spring.version>4.0.2.RELEASE</spring.version>
-        <jackson.version>2.1.2</jackson.version>
+        <spring.version>4.3.13.RELEASE</spring.version>
+        <jackson.version>2.9.0</jackson.version>
         <!-- maven默认取系统字符集（中文系统通常为GBK）编译 ,若和项目编码不一致，maven编译会报错 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -151,7 +151,12 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.4</version>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.13</version>
         </dependency>
 
         <!-- 导入dbcp的jar包，用来在applicationContext.xml中配置数据库 -->
