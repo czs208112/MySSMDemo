@@ -18,7 +18,7 @@
         <form method="post" class="form-horizontal col-md-8 col-md-offset-2" id="yourformid">
             <div class="form-group">
                 <i class="fa fa-user fa-lg col-md-1"></i>
-                <input class="form-focus form-control col-md-10" type="text" placeholder="账号" name="username" value="lxx">
+                <input class="form-focus form-control col-md-10" type="text" placeholder="账号" name="username" value="admin">
             </div>
             <div class="form-group">
                 <i class="fa fa-lock fa-lg col-md-1"></i>
@@ -63,6 +63,7 @@
 
             $(this).ajaxSubmit({
                 type: 'post', // 提交方式 get/post
+                dataType: "json",
                 url: "${pageContext.request.contextPath}/userlogin/login.do", // 需要提交的 url
                 success: function (data) { // data 保存提交后返回的数据，一般为 json 数据
                     if (data.success == false) {
@@ -86,10 +87,16 @@
 
                             sendNotify(data.resultMessage);
 
-                        } else if (data.resultType == 1010) {
+                        } else {
                             sendNotify(data.resultMessage);
                         }
                         return false;
+                    } else {
+                        if (data.jobject == null) {
+                            window.location.href = "success.jsp"
+                        } else {
+                            window.location.href = data.jobject.savedUrl;
+                        }
                     }
                 }
             });

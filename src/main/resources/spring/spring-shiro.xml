@@ -59,7 +59,7 @@
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="rememberMe"/>
-        <property name="loginUrl" value="/pages/common/login.jsp"/>
+        <property name="loginUrl" value="/userlogin/login.do"/>
         <!--<property name="successUrl" value="/pages/common/index.jsp"/>-->
         <property name="failureKeyAttribute" value="shiroLoginFailure"/>
     </bean>
@@ -96,17 +96,17 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-                <!--/login=jcaptcha,authc-->
-                /userlogin/login.do = jcaptcha
+                /userlogin/login.do = jcaptcha,authc
                 <!--/userlogin/checkValidateCode.do = jcaptcha-->
                 /pages/common/index.jsp = anon
                 /pages/common/login.jsp = anon
-                /**/*.jsp = authc
-                /**/*.html = authc
                 /img/** = anon
                 /plugins/** = anon
-                /*.do = anon
+                /pages/** = authc
+                /logout.do = logout
                 /sockjs/** = anon
+                /vcode/** = anon
+                /**/*.do = authc
                 /** = anon
             </value>
         </property>

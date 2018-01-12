@@ -4,12 +4,11 @@ import com.summit.base.CommonResult;
 import com.summit.base.Constants;
 import com.summit.base.exception.CustomException;
 import com.summit.common.uesrLogin.service.UserManagerService;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
+import net.sf.json.JSONObject;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,8 +39,8 @@ public class Login {
 //        return result;
 //    }
     @RequestMapping("login")
-    public String login(HttpServletRequest request) throws Exception {
-
+    @ResponseBody
+    public CommonResult login(HttpServletRequest request) throws Exception {
         //如果登陆失败从request中获取认证异常信息，shiroLoginFailure就是shiro异常类的全限定名
         String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
         //根据shiro返回的异常类路径判断，抛出指定异常信息
@@ -50,7 +49,7 @@ public class Login {
                 //最终会抛给异常处理器
                 throw new CustomException("账号不存在", Constants.ERROR_CODE_ACCOUNT_NOT_EXIST);
             } else if (IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
-                throw new CustomException("用户名/密码错误", Constants.ERROR_CODE_ACCOUNT_OR_PASSWORD_ERROR);
+                throw new CustomException("密码错误", Constants.ERROR_CODE_PASSWORD_ERROR);
             } else if (Constants.FAILURE_VALUE_ATTRIBUTE.equals(exceptionClassName)) {
                 throw new CustomException("验证码错误", Constants.ERROR_CODE_VALIDATECODE_ERROR);
             } else {
@@ -60,28 +59,37 @@ public class Login {
 
         // List<User> userList = userManagerService.getUserList();
 
-        String name = request.getParameter("username");
-        String password = request.getParameter("password");
-        password = "1f82c942befda29b6ed487a51da199f78fce7f05";
-        UsernamePasswordToken token = new UsernamePasswordToken(name, password);
-        token.setRememberMe(true);
+//        String name = request.getParameter("username");
+//        String password = request.getParameter("password");
+//        password = "1f82c942befda29b6ed487a51da199f78fce7f05";
+//        UsernamePasswordToken token = new UsernamePasswordToken(name, password);
+//        token.setRememberMe(true);
+//
+//        Subject subject = SecurityUtils.getSubject();
+//        try {
+//            subject.login(token);
+//        } catch (Exception e) {
+//            if (e instanceof UnknownAccountException) {
+//                throw new CustomException("账号不存在", Constants.ERROR_CODE_ACCOUNT_NOT_EXIST);
+////            return "redirect:/pages/common/error.jsp";//重定向到错误页
+////            return "/common/wsdemo";
+////            return "/common/sockjsdemo";
+//            } else if (e instanceof AuthenticationException) {
+//                throw new CustomException("密码错误", Constants.ERROR_CODE_ACCOUNT_NOT_EXIST);
+//            } else {
+//                throw e;
+//            }
+//        }
 
-        Subject subject = SecurityUtils.getSubject();
-        try {
-            subject.login(token);
-        } catch (Exception e) {
-            if (e instanceof UnknownAccountException) {
-                throw new CustomException("账号不存在", Constants.ERROR_CODE_ACCOUNT_NOT_EXIST);
-//            return "redirect:/pages/common/error.jsp";//重定向到错误页
-//            return "/common/wsdemo";
-//            return "/common/sockjsdemo";
-            } else if (e instanceof AuthenticationException) {
-                throw new CustomException("密码错误", Constants.ERROR_CODE_ACCOUNT_NOT_EXIST);
-            } else {
-                throw e;
-            }
+        SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+        CommonResult result = new CommonResult();
+        if (null != savedRequest) {
+            JSONObject savedUrl = new JSONObject();
+            String url = savedRequest.getRequestUrl();
+            savedUrl.put("savedUrl", url);
+            result.setJobject(savedUrl);
         }
-        return "redirect:/pages/common/error.jsp";
+        return result;
     }
 
     @RequestMapping("checkValidateCode")
