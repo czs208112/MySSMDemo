@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/tx
-	http://www.springframework.org/schema/tx/spring-tx.xsd">
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- 引入配置文件 -->
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:database-config.properties"/>
-    </bean>
+    <!-- 引入配置文件的几种方式 -->
+    <!-- <bean id="propertyConfigurer"
+             class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+           <property name="location" value="classpath:database-config.properties"/>
+       </bean>-->
+    <!--<context:property-placeholder location="classpath:database-config.properties" ignore-unresolvable="true"/>-->
+    <util:properties id="properties" location="classpath:database-config.properties"/>
 
     <!-- druid连接池配置数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
@@ -61,15 +68,15 @@
     <!--</bean>-->
 
     <!--BasicDataSource-->
-   <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-          destroy-method="close" lazy-init="false" p:driverClassName="${jdbc.driverClassName}"
-          p:url="${jdbc.url}" p:username="${jdbc.username}" p:password="${jdbc.password}"
-          p:initialSize="5" p:maxActive="50" p:maxIdle="5" p:maxWait="1000"
-          p:poolPreparedStatements="false" p:defaultAutoCommit="true"
-          p:removeAbandoned="true" p:removeAbandonedTimeout="60"
-          p:validationQuery="select 1 from dual" p:testOnBorrow="true"
-          p:timeBetweenEvictionRunsMillis="10000" p:minEvictableIdleTimeMillis="10000">
-    </bean>-->
+    <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+           destroy-method="close" lazy-init="false" p:driverClassName="${jdbc.driverClassName}"
+           p:url="${jdbc.url}" p:username="${jdbc.username}" p:password="${jdbc.password}"
+           p:initialSize="5" p:maxActive="50" p:maxIdle="5" p:maxWait="1000"
+           p:poolPreparedStatements="false" p:defaultAutoCommit="true"
+           p:removeAbandoned="true" p:removeAbandonedTimeout="60"
+           p:validationQuery="select 1 from dual" p:testOnBorrow="true"
+           p:timeBetweenEvictionRunsMillis="10000" p:minEvictableIdleTimeMillis="10000">
+     </bean>-->
 
     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件. -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
