@@ -59,7 +59,7 @@
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="rememberMe"/>
-        <property name="loginUrl" value="/userlogin/login.do"/>
+
         <!--<property name="successUrl" value="/pages/common/index.jsp"/>-->
         <property name="failureKeyAttribute" value="shiroLoginFailure"/>
     </bean>
@@ -77,7 +77,7 @@
         <!-- Shiro的核心安全接口,这个属性是必须的 -->
         <property name="securityManager" ref="securityManager"/>
         <!-- 要求登录时的链接(可根据项目的URL进行替换),非必须的属性,默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->
-        <!--<property name="loginUrl" value="/userlogin/login.do"/>-->
+        <property name="loginUrl" value="/userlogin/login.do"/>
         <property name="successUrl" value="/pages/common/index.jsp"/>
         <property name="unauthorizedUrl" value="/pages/common/error.jsp"/>
         <property name="filters">
@@ -102,9 +102,10 @@
                 /pages/common/login.jsp = anon
                 /img/** = anon
                 /plugins/** = anon
-                /pages/** = authc
+                /pages/** = user
                 /logout.do = logout
                 /sockjs/** = anon
+                /ws.do = anon
                 /vcode/** = anon
                 /**/*.do = authc
                 /** = anon

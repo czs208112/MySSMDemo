@@ -1,18 +1,17 @@
 package com.summit.framework.shiro;
 
 import com.summit.base.Constants;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -26,6 +25,9 @@ import java.util.Collection;
 public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
 
     private static final Logger log = LoggerFactory.getLogger(MyFormAuthenticationFilter.class);
+
+    @Autowired
+    DefaultWebSessionManager sessionManager;
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
@@ -79,8 +81,8 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
 //        return super.onLoginSuccess(token, subject, request, response);//登陆成功后走默认流程
 
         //处理session,实现一个用户同一时刻只能在一个地方登录
-        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
-        DefaultWebSessionManager sessionManager = (DefaultWebSessionManager) securityManager.getSessionManager();
+//        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
+//        DefaultWebSessionManager sessionManager = (DefaultWebSessionManager) securityManager.getSessionManager();
         Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();//获取当前已登录的用户session列表
         for (Session session : sessions) {
             //清除该用户以前登录时保存的session
