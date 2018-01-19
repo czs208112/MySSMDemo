@@ -5,6 +5,7 @@ import com.summit.base.Constants;
 import com.summit.base.exception.CustomException;
 import com.summit.common.uesrLogin.service.UserManagerService;
 import net.sf.json.JSONObject;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.web.util.SavedRequest;
@@ -52,8 +53,10 @@ public class Login {
                 throw new CustomException("密码错误", Constants.ERROR_CODE_PASSWORD_ERROR);
             } else if (Constants.FAILURE_VALUE_ATTRIBUTE.equals(exceptionClassName)) {
                 throw new CustomException("验证码错误", Constants.ERROR_CODE_VALIDATECODE_ERROR);
-            } else {
-                throw new CustomException("未知错误", Constants.ERROR_CODE_UNKNOWN);//最终在异常处理器生成未知错误
+            }
+            if (AuthenticationException.class.getName().equals(exceptionClassName)) {
+                //最终会抛给异常处理器
+                throw new CustomException("登陆失败", Constants.ERROR_CODE_ACCOUNT_NOT_EXIST);
             }
         }
 
