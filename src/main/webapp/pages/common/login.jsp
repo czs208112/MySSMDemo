@@ -10,6 +10,7 @@
     <link href="${pageContext.request.contextPath}/plugins/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/customer/css/login.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/plugins/pnotify/pnotify.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/plugins/pnotify/pnotify.buttons.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -44,6 +45,7 @@
 <script src="${pageContext.request.contextPath}/plugins/jquery-form/jquery.form.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/plugins/poshytip/jquery.poshytip.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/plugins/pnotify/pnotify.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/plugins/pnotify/pnotify.buttons.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
@@ -125,9 +127,16 @@
                 shadow: true,
                 text: message,
                 type: 'notice', //"notice", "info", "success", or "error".
+                width: "350px",
                 delay: 3000,
                 addclass: "stack-modal",//stack-topleft,stack-bottomleft,stack-bottomright,stack-modal
                 stack: stack_modal
+                // modules: {
+                //     Buttons: {
+                //         closer: false,
+                //         sticker: false
+                //     }
+                // }
             });
         }
 
