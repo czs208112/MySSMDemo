@@ -46,16 +46,14 @@ $(function () {
             sortable: false,
             align: 'right',
             width: 100,
-            fixed: true,
-            key: true,
+            frozen: true,
         },
             {
                 name: 'A',
                 sortable: false,
                 align: 'right',
                 width: 100,
-                fixed: true,
-                key: true,
+                frozen: true,
                 formatter: function (cellvalue) {
                     return '<input type="checkbox" /> adsfalsdfj;'
                 }
@@ -64,14 +62,14 @@ $(function () {
                 name: 'B',
                 sortable: false,
                 width: 100,
-                fixed: true,
+                frozen: true,
                 align: 'left'
             },
             {
                 name: 'C',
                 sortable: false,
                 width: 140,
-                fixed: true,
+                frozen: true,
                 align: 'right'
             },
             {
@@ -167,6 +165,8 @@ $(function () {
         }
     });
 
+    $("#table_list").jqGrid('setFrozenColumns');
+
     var allData = $("#table_list").jqGrid("getRowData");
     $.each(allData, function (i, n) {
         // alert(JSON.stringify(n))
@@ -181,9 +181,9 @@ $(function () {
         ]
     });
 
-    jQuery("#table_list").jqGrid("setComplexGroupHeaders", {
-        complexGroupHeaders: [
-            {startColumnName: 'A', numberOfColumns: 7, titleText: '基本信息A'}
-        ]
-    });
+    // jQuery("#table_list").jqGrid("setComplexGroupHeaders", {
+    //     complexGroupHeaders: [
+    //         {startColumnName: 'A', numberOfColumns: 7, titleText: '基本信息A'}
+    //     ]
+    // });
 })
